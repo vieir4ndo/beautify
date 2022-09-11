@@ -18,7 +18,7 @@ class UpdateUsersTable extends Migration
             $table->date('birth_date')->nullable();
             $table->integer('type')->default(\App\Enums\UserType::Client->value);
 
-            $table->foreignId('company_id')->constrained('companies')->nullable();
+            $table->foreignId('company_id')->nullable()->constrained('companies');
             $table->dropColumn('current_team_id');
         });
     }
