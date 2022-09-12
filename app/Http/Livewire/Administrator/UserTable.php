@@ -141,24 +141,33 @@ final class UserTable extends PowerGridComponent
     {
         return [
             Column::make('CÓDIGO', 'id')
-                ->searchable(),
+                ->makeInputRange(),
 
             Column::make('NOME', 'name')
-                ->searchable(),
+                ->sortable()
+                ->searchable()
+                ->makeInputText(),
 
             Column::make('E-MAIL', 'email')
+                ->sortable()
                 ->searchable()
+                ->makeInputText()
                 ->clickToCopy(true),
 
             Column::make('TELEFONE', 'phone_number')
+                ->sortable()
                 ->searchable()
+                ->makeInputText()
                 ->clickToCopy(true),
 
             Column::make('TIPO', 'type')
+                ->field('type', 'type')
+                ->makeInputSelect(User::types(), 'label', 'type')
                 ->searchable(),
 
             Column::make('DATA DE NASCIMENTO', 'birth_date_formatted', 'birth_date')
-                ->searchable()
+                ->sortable()
+                ->makeInputDatePicker('date')
         ];
     }
 
