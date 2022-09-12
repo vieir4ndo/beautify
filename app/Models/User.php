@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable
 {
@@ -62,4 +63,27 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public function isAdministrator()
+    {
+        return $this->type == \App\Enums\UserType::Administrator->value;
+    }
+
+    public function isEmployee()
+    {
+        return $this->type == \App\Enums\UserType::Employee->value;
+    }
+
+    public static function types(): Collection
+    {
+        return collect(
+            [
+                ['type' => 1,  'label' => 'Administrador'],
+                ['type' => 2,  'label' => 'Administrador de Empresa'],
+                ['type' => 3,  'label' => 'Funcionário'],
+                ['type' => 4, 'label' => 'Cliente'],
+            ]
+        );
+    }
 }

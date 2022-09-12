@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Administrator;
 
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
@@ -12,6 +13,42 @@ use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Heade
 final class UserTable extends PowerGridComponent
 {
     use ActionButton;
+
+    /**
+     * PowerGrid Header
+     *
+     * @return array<int, Button>
+     */
+    public function header(): array
+    {
+        return [
+            Button::add('new-user')
+                ->caption(__('Novo Usuário'))
+                ->class('cursor-pointer block bg-indigo-500 text-white border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
+                ->emit('newUserEvent', [])
+        ];
+    }
+
+    protected function getListeners()
+    {
+        return array_merge(
+            parent::getListeners(),
+            [
+                'newUserEvent',
+                'editUser'
+            ]
+        );
+    }
+
+    public function newUserEvent()
+    {
+        return redirect()->route("web.admininistrator.user.form");
+    }
+
+    public function editUser()
+    {
+        return redirect()->route("web.admininistrator.user.form");
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -22,15 +59,9 @@ final class UserTable extends PowerGridComponent
     */
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage()
                 ->showRecordCount(),
         ];
     }
@@ -44,10 +75,10 @@ final class UserTable extends PowerGridComponent
     */
 
     /**
-    * PowerGrid datasource.
-    *
-    * @return Builder<\App\Models\User>
-    */
+     * PowerGrid datasource.
+     *
+     * @return Builder<\App\Models\User>
+     */
     public function datasource(): Builder
     {
         return User::query();
@@ -78,26 +109,16 @@ final class UserTable extends PowerGridComponent
     | Make Datasource fields available to be used as columns.
     | You can pass a closure to transform/modify the data.
     |
-    | ❗ IMPORTANT: When using closures, you must escape any value coming from
-    |    the database using the `e()` Laravel Helper function.
-    |
     */
     public function addColumns(): PowerGridEloquent
     {
         return PowerGrid::eloquent()
             ->addColumn('id')
             ->addColumn('name')
-
-           /** Example of custom column using a closure **/
-            ->addColumn('name_lower', function (User $model) {
-                return strtolower(e($model->name));
-            })
-
             ->addColumn('email')
             ->addColumn('phone_number')
+            ->addColumn('type', fn ($user) => User::types()->firstWhere('type', $user->type)['label'])
             ->addColumn('birth_date_formatted', fn (User $model) => Carbon::parse($model->birth_date)->format('d/m/Y'))
-            ->addColumn('type')
-            ->addColumn('company_id')
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
             ->addColumn('updated_at_formatted', fn (User $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
     }
@@ -111,7 +132,7 @@ final class UserTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid Columns.
      *
      * @return array<int, Column>
@@ -119,47 +140,26 @@ final class UserTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->makeInputRange(),
+            Column::make('CÓDIGO', 'id')
+                ->searchable(),
 
-            Column::make('NAME', 'name')
-                ->sortable()
+            Column::make('NOME', 'name')
+                ->searchable(),
+
+            Column::make('E-MAIL', 'email')
                 ->searchable()
-                ->makeInputText(),
+                ->clickToCopy(true),
 
-            Column::make('EMAIL', 'email')
-                ->sortable()
+            Column::make('TELEFONE', 'phone_number')
                 ->searchable()
-                ->makeInputText(),
+                ->clickToCopy(true),
 
-            Column::make('PHONE NUMBER', 'phone_number')
-                ->sortable()
+            Column::make('TIPO', 'type')
+                ->searchable(),
+
+            Column::make('DATA DE NASCIMENTO', 'birth_date_formatted', 'birth_date')
                 ->searchable()
-                ->makeInputText(),
-
-            Column::make('BIRTH DATE', 'birth_date_formatted', 'birth_date')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
-
-            Column::make('TYPE', 'type')
-                ->makeInputRange(),
-
-            Column::make('COMPANY ID', 'company_id')
-                ->makeInputRange(),
-
-            Column::make('CREATED AT', 'created_at_formatted', 'created_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
-
-            Column::make('UPDATED AT', 'updated_at_formatted', 'updated_at')
-                ->searchable()
-                ->sortable()
-                ->makeInputDatePicker(),
-
-        ]
-;
+        ];
     }
 
     /*
@@ -170,27 +170,23 @@ final class UserTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid User Action Buttons.
      *
      * @return array<int, Button>
      */
 
-    /*
+
     public function actions(): array
     {
-       return [
-           Button::make('edit', 'Edit')
-               ->class('bg-indigo-500 cursor-pointer text-white px-3 py-2.5 m-1 rounded text-sm')
-               ->route('user.edit', ['user' => 'id']),
-
-           Button::make('destroy', 'Delete')
-               ->class('bg-red-500 cursor-pointer text-white px-3 py-2 m-1 rounded text-sm')
-               ->route('user.destroy', ['user' => 'id'])
-               ->method('delete')
+        return [
+            Button::add("edit")
+                ->caption('Editar')
+                ->class('cursor-pointer block bg-indigo-500 text-white border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
+                ->emit('editUser', ['uid' => 'uid']),
         ];
     }
-    */
+
 
     /*
     |--------------------------------------------------------------------------
@@ -200,7 +196,7 @@ final class UserTable extends PowerGridComponent
     |
     */
 
-     /**
+    /**
      * PowerGrid User Action Rules.
      *
      * @return array<int, RuleActions>
