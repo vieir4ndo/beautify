@@ -104,7 +104,7 @@
                             </div>
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                {{ __('Perfil') }}
                             </x-jet-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -120,7 +120,7 @@
                                 @csrf
 
                                 <x-jet-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Sair') }}
                                 </x-jet-dropdown-link>
                             </form>
                         </x-slot>
@@ -143,11 +143,18 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-jet-responsive-nav-link>
+            @switch(Auth::user()->type)
+            @case(\App\Enums\UserType::Administrator->value)
+            @include('layouts.navigation-menus.responsive.administrator')
+            @break
+            @case(\App\Enums\UserType::CompanyAdministrator->value)
+            @include('layouts.navigation-menus.responsive.company-administrator')
+            @break
+            @case(\App\Enums\UserType::Employee->value)
+            @include('layouts.navigation-menus.responsive.employee')
+            @break
+            @endswitch
         </div>
-
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
@@ -166,7 +173,7 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                 <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                    {{ __('Perfil') }}
                 </x-jet-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -180,7 +187,7 @@
                     @csrf
 
                     <x-jet-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Sair') }}
                     </x-jet-responsive-nav-link>
                 </form>
 
