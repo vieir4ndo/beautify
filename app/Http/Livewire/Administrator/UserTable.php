@@ -116,7 +116,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('name')
             ->addColumn('email')
-            ->addColumn('phone_number')
+            ->addColumn('phone_number', fn ($user) => $user->getPhoneNumberFormatted())
             ->addColumn('type', fn ($user) => User::types()->firstWhere('type', $user->type)['label'])
             ->addColumn('birth_date_formatted', fn (User $model) => Carbon::parse($model->birth_date)->format('d/m/Y'))
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))

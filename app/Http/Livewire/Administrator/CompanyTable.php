@@ -80,7 +80,29 @@ final class CompanyTable extends PowerGridComponent
      */
     public function datasource(): Builder
     {
-        return Company::query();
+        return Company::query()->leftJoin('users as user', function ($users) {
+            $users->on('companies.administrator_id', '=', 'user.id');
+        })->select([
+            'companies.id',
+            'companies.name',
+            'companies.fantasy_name',
+            'companies.description',
+            'companies.federal_registration',
+            'companies.email',
+            'companies.phone_number',
+            'companies.logo_path',
+            'companies.adress_post_code',
+            'companies.adress_street',
+            'companies.adress_complement',
+            'companies.adress_neighborhood',
+            'companies.adress_city',
+            'companies.adress_state',
+            'companies.facebook',
+            'companies.instragram',
+            'companies.whatsapp',
+            'companies.administrator_id',
+            'user.name as name_administrator',
+        ])->orderBy('companies.id', 'asc');
     }
 
     /*
@@ -119,9 +141,9 @@ final class CompanyTable extends PowerGridComponent
             ->addColumn('name')
             ->addColumn('fantasy_name')
             ->addColumn('description')
-            ->addColumn('federal_registration')
+            ->addColumn('federal_registration', fn ($company) => $company->getFederalRegistrationFormatted())
             ->addColumn('email')
-            ->addColumn('phone_number')
+            ->addColumn('phone_number', fn ($company) => $company->getPhoneNumberFormatted())
             ->addColumn('logo_path')
             ->addColumn('adress_post_code')
             ->addColumn('adress_street')
@@ -132,7 +154,7 @@ final class CompanyTable extends PowerGridComponent
             ->addColumn('facebook')
             ->addColumn('instragram')
             ->addColumn('whatsapp')
-            ->addColumn('administrator_id');
+            ->addColumn('name_administrator');
     }
 
     /*
@@ -153,25 +175,39 @@ final class CompanyTable extends PowerGridComponent
     {
         return [
             Column::make('CÓDIGO', 'id')
-                ->searchable(),
+                ->makeInputRange(),
 
             Column::make('NOME', 'name')
-                ->searchable(),
+                ->sortable()
+                ->searchable()
+                ->makeInputText(),
 
             Column::make('NOME FANTASIA', 'fantasy_name')
-                ->searchable(),
+                ->sortable()
+                ->searchable()
+                ->makeInputText(),
 
             Column::make('INSCRIÇÃO FEDERAL', 'federal_registration')
-                ->searchable(),
+                ->sortable()
+                ->searchable()
+                ->makeInputText(),
 
             Column::make('E-MAIL', 'email')
-                ->searchable(),
+                ->sortable()
+                ->searchable()
+                ->makeInputText()
+                ->clickToCopy(true),
 
             Column::make('TELEFONE', 'phone_number')
-                ->searchable(),
+                ->sortable()
+                ->searchable()
+                ->makeInputText()
+                ->clickToCopy(true),
 
-            Column::make('ADMINISTRADOR', 'administrator_id')
-                ->searchable(),
+            Column::make('ADMINISTRADOR', 'name_administrator')
+                ->sortable()
+                ->searchable()
+                ->makeInputText(),
 
         ];
     }
