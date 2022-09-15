@@ -41,12 +41,12 @@ final class CompanyTable extends PowerGridComponent
 
     public function newCompanyEvent()
     {
-        return redirect()->route("web.admininistrator.company.form");
+        return redirect()->route("web.administrator.company.form");
     }
 
     public function editCompany()
     {
-        return redirect()->route("web.admininistrator.company.form");
+        return redirect()->route("web.administrator.company.form");
     }
 
     /*

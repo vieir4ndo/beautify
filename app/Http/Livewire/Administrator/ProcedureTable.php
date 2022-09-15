@@ -49,12 +49,12 @@ final class ProcedureTable extends PowerGridComponent
 
     public function newProcedureEvent()
     {
-        return redirect()->route("web.admininistrator.procedure.form");
+        return redirect()->route("web.administrator.procedure.form");
     }
 
     public function editProcedure()
     {
-        return redirect()->route("web.admininistrator.procedure.form");
+        return redirect()->route("web.administrator.procedure.form");
     }
 
     /*
