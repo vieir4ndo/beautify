@@ -24,6 +24,7 @@ class CreateReservesTable extends Migration
             $table->foreignId('client_id')->constrained('users');
             $table->foreignId('employee_id')->constrained('users');
             $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('procedure_id')->constrained('procedures');
         });
     }
 

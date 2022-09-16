@@ -17,6 +17,7 @@ class UpdateUsersTable extends Migration
             $table->string('phone_number')->unique();
             $table->date('birth_date')->nullable();
             $table->integer('type')->default(\App\Enums\UserType::Client->value);
+            $table->boolean('active')->default(true);
 
             $table->foreignId('company_id')->nullable()->constrained('companies');
             $table->dropColumn('current_team_id');

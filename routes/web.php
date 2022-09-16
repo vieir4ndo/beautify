@@ -35,8 +35,10 @@ Route::middleware([
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::namespace('\App\Http\Controllers')->group(function () {
         Route::get('/administrator/user', [UserController::class, 'index'])->name('web.administrator.user.index');
-        Route::get('/administrator/user/form', [UserController::class, 'form'])->name('web.administrator.user.form');
+        Route::get('/administrator/user/form', [UserController::class, 'formCreate'])->name('web.administrator.user.form-create');
+        Route::get('/administrator/user/form/{id}', [UserController::class, 'formUpdate'])->name('web.administrator.user.form-update');
         Route::post('/administrator/user/create', [UserController::class, 'create'])->name('web.administrator.user.create');
+        Route::post('/administrator/user/update', [UserController::class, 'update'])->name('web.administrator.user.update');
         Route::get('/administrator/company', [CompanyController::class, 'index'])->name('web.administrator.company.index');
         Route::get('/administrator/company/create', [CompanyController::class, 'form'])->name('web.administrator.company.form');
         Route::get('/administrator/procedure', [ProcedureController::class, 'index'])->name('web.administrator.procedure.index');

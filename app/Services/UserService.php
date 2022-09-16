@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -14,13 +15,31 @@ class UserService
         $this->userRepository = $repository;
     }
 
-    public function create($input){
+    public function create($input)
+    {
+        if ($input['birth_date'] != null) {
+            $input['birth_date'] = Carbon::parse($input['birth_date'])->format("Y-m-d");
+        }
         $input['password'] = Hash::make($this->generateRandomPassword());
 
         return $this->userRepository->create($input);
     }
 
-    private static function generateRandomPassword($length = 10) {
+    public function update($id, $input)
+    {
+        if ($input['birth_date'] != null) {
+            $input['birth_date'] = Carbon::parse($input['birth_date'])->format("Y-m-d");
+        }
+        return $this->userRepository->update($id, $input);
+    }
+
+    public function getUserById($id)
+    {
+        return $this->userRepository->getUserById($id);
+    }
+
+    private static function generateRandomPassword($length = 10)
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';

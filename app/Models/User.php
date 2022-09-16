@@ -32,6 +32,7 @@ class User extends Authenticatable
         'birth_date',
         'type',
         'company_id',
+        'active',
     ];
 
     /**
@@ -83,6 +84,16 @@ class User extends Authenticatable
                 ['type' => 2,  'label' => 'Administrador de Empresa'],
                 ['type' => 3,  'label' => 'Funcionário'],
                 ['type' => 4, 'label' => 'Cliente'],
+            ]
+        );
+    }
+
+    public static function activity(): Collection
+    {
+        return collect(
+            [
+                ['active' => true,  'label' => 'Sim'],
+                ['active' => false,  'label' => 'Não'],
             ]
         );
     }

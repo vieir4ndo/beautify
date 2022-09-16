@@ -42,12 +42,12 @@ final class UserTable extends PowerGridComponent
 
     public function newUserEvent()
     {
-        return redirect()->route("web.administrator.user.form");
+        return redirect()->route("web.administrator.user.form-create");
     }
 
-    public function editUser()
+    public function editUser(array $data)
     {
-        return redirect()->route("web.administrator.user.form");
+        return redirect()->route("web.administrator.user.form-update", $data["id"]);
     }
 
     /*
@@ -118,6 +118,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('email')
             ->addColumn('phone_number', fn ($user) => $user->getPhoneNumberFormatted())
             ->addColumn('type', fn ($user) => User::types()->firstWhere('type', $user->type)['label'])
+            ->addColumn('active', fn ($user) => User::activity()->firstWhere('active', $user->active)['label'])
             ->addColumn('birth_date_formatted', fn (User $model) => Carbon::parse($model->birth_date)->format('d/m/Y'))
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
             ->addColumn('updated_at_formatted', fn (User $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
@@ -140,32 +141,37 @@ final class UserTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('CÓDIGO', 'id')
+            Column::make('Código', 'id')
                 ->makeInputRange(),
 
-            Column::make('NOME', 'name')
+            Column::make('Nome', 'name')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('E-MAIL', 'email')
+            Column::make('E-mail', 'email')
                 ->sortable()
                 ->searchable()
                 ->makeInputText()
                 ->clickToCopy(true),
 
-            Column::make('TELEFONE', 'phone_number')
+            Column::make('Telefone', 'phone_number')
                 ->sortable()
                 ->searchable()
                 ->makeInputText()
                 ->clickToCopy(true),
 
-            Column::make('TIPO', 'type')
+            Column::make('Tipo', 'type')
                 ->field('type', 'type')
                 ->makeInputSelect(User::types(), 'label', 'type')
                 ->searchable(),
 
-            Column::make('DATA DE NASCIMENTO', 'birth_date_formatted', 'birth_date')
+            Column::make('Ativo', 'active')
+                ->field('active', 'active')
+                ->makeInputSelect(User::activity(), 'label', "active")
+                ->searchable(),
+
+            Column::make('Data de Nascimento', 'birth_date_formatted', 'birth_date')
                 ->sortable()
                 ->makeInputDatePicker('date')
         ];
@@ -192,7 +198,7 @@ final class UserTable extends PowerGridComponent
             Button::add("edit")
                 ->caption('Editar')
                 ->class('cursor-pointer block bg-indigo-500 text-white border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
-                ->emit('editUser', ['uid' => 'uid']),
+                ->emit('editUser',  ['id' => 'id']),
         ];
     }
 

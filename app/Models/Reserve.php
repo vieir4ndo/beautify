@@ -18,6 +18,7 @@ class Reserve extends Model
         'client_id',
         'employee_id',
         'company_id',
+        'procedure_id',
     ];
 
     public $timestamps = false;
