@@ -81,7 +81,6 @@ class UserController extends Controller
         try {
             $input = [
                 "name" => $request["name"],
-                "email" => $request["email"],
                 "phone_number" => $request["phone_number"],
                 "type" => $request["type"],
                 "company_id" => $request["company_id"],

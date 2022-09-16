@@ -64,11 +64,13 @@
                                     value="{{$user->phone_number}}">
                             </div>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
-                                <x-jet-label for="email" value="{{ __('E-mail') }}"/>
+                                <label class="block font-medium text-sm text-gray-700" for="email">
+                                    Email
+                                </label>
                                 <input
-                                    class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
-                                    id="email" type="email" name="email" required="required"
-                                    value="{{$user->email}}">
+                                    class="bg bg-gray-300 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
+                                    id="email" type="email" name="email"
+                                    value="{{$user->email}}" disabled>
                             </div>
                         </div>
 

@@ -2,10 +2,18 @@
 
 namespace App\Actions\Jetstream;
 
+use App\Services\UserService;
 use Laravel\Jetstream\Contracts\DeletesUsers;
 
 class DeleteUser implements DeletesUsers
 {
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * Delete the given user.
      *
@@ -14,8 +22,9 @@ class DeleteUser implements DeletesUsers
      */
     public function delete($user)
     {
-        $user->deleteProfilePhoto();
         $user->tokens->each->delete();
-        $user->delete();
+        $this->userService->update($user->id, [
+            "active" => !$user->active
+        ]);
     }
 }

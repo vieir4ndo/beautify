@@ -119,7 +119,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('phone_number', fn ($user) => $user->getPhoneNumberFormatted())
             ->addColumn('type', fn ($user) => User::types()->firstWhere('type', $user->type)['label'])
             ->addColumn('active', fn ($user) => User::activity()->firstWhere('active', $user->active)['label'])
-            ->addColumn('birth_date_formatted', fn (User $model) => Carbon::parse($model->birth_date)->format('d/m/Y'))
+            ->addColumn('birth_date_formatted', fn (User $model) => ($model->birth_date != null) ? Carbon::parse($model->birth_date)->format('d/m/Y') : null)
             ->addColumn('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'))
             ->addColumn('updated_at_formatted', fn (User $model) => Carbon::parse($model->updated_at)->format('d/m/Y H:i:s'));
     }

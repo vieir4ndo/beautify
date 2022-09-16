@@ -27,7 +27,7 @@ class UserService
 
     public function update($id, $input)
     {
-        if ($input['birth_date'] != null) {
+        if (isset($input['birth_date'])) {
             $input['birth_date'] = Carbon::parse($input['birth_date'])->format("Y-m-d");
         }
         return $this->userRepository->update($id, $input);
