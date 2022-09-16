@@ -10,7 +10,7 @@ class UserValidator
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone_number' => ['required', 'string', 'unique:users'],
             'type' => ['required', 'integer'],
-            'company_id' => ['integer', 'exists:companies,id'],
+            'company_id' => ["nullable",'integer', 'exists:companies,id'],
         ];
     }
 }

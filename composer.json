@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.5",
+        "lucascudo/laravel-pt-br-localization": "^1.2",
         "openspout/openspout": "^4.7",
         "power-components/livewire-powergrid": "^3.3",
         "realrashid/sweet-alert": "^5.1"

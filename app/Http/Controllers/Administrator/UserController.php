@@ -7,6 +7,7 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -42,17 +43,18 @@ class UserController extends Controller
             $validation = Validator::make($input, UserValidator::createRules());
 
             if ($validation->fails()) {
-                Alert::error('Erro', Arr::flatten($validation->errors()->all()));
+                toast(Arr::flatten($validation->errors()->all()),'error');
                 return back();
             }
 
             $this->userService->create($input);
 
-            Alert::success('Sucesso', 'Usuário criado com sucesso!');
+            toast('Usuário criado com sucesso!','success');
             return back();
         }
         catch (\Exception $e){
-            Alert::error('Erro', $e->getMessage());
+            Log::error($e);
+            toast("Houve um erro ao processar sua solicitação, tente novamente.",'error');
             return back();
         }
     }

@@ -44,6 +44,7 @@
 
     @livewireScripts
     @powerGridScripts
+    @include('sweetalert::alert')
 </body>
 
 </html>
