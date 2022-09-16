@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae493cadf7831927068184ff6dfba7dc",
+    "content-hash": "13e394c06c1e01d67b50e567000b51f4",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1976,6 +1976,57 @@
                 "source": "https://github.com/laravel/tinker/tree/v2.7.2"
             },
             "time": "2022-03-23T12:38:24+00:00"
+        },
+        {
+            "name": "laravellegends/pt-br-validator",
+            "version": "9.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelLegends/pt-br-validator.git",
+                "reference": "c0298e05998618ce174355bff00b34cae571eb39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelLegends/pt-br-validator/zipball/c0298e05998618ce174355bff00b34cae571eb39",
+                "reference": "c0298e05998618ce174355bff00b34cae571eb39",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.0 || ^5.0 || ^6.0 || ^7.0",
+                "phpunit/phpunit": "^8.3 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelLegends\\PtBrValidator\\ValidatorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelLegends\\PtBrValidator\\": "src/pt-br-validator"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wallace de Souza Vizerra",
+                    "email": "wallacemaxters@gmail.com"
+                }
+            ],
+            "description": "Uma biblioteca contendo validações de formatos Brasileiros, para o Laravel",
+            "support": {
+                "issues": "https://github.com/LaravelLegends/pt-br-validator/issues",
+                "source": "https://github.com/LaravelLegends/pt-br-validator/tree/9.1.0"
+            },
+            "time": "2022-09-15T22:23:57+00:00"
         },
         {
             "name": "league/commonmark",
@@ -6236,6 +6287,59 @@
                 }
             ],
             "time": "2022-07-20T13:46:29+00:00"
+        },
+        {
+            "name": "tal7aouy/errors",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tal7aouy/laravel-custom-errors.git",
+                "reference": "a73dd976bb5ae172f5e0dcdc4347c3779a219c53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tal7aouy/laravel-custom-errors/zipball/a73dd976bb5ae172f5e0dcdc4347c3779a219c53",
+                "reference": "a73dd976bb5ae172f5e0dcdc4347c3779a219c53",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=8.65",
+                "php": "^8.0.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tal7aouy\\Errors\\ErrorsServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tal7aouy\\Errors\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mhammed Talhaouy",
+                    "email": "tal7aouy@gmail.com",
+                    "role": "PHP Developer"
+                }
+            ],
+            "description": "Error pages for the Laravel Framework using Tailwind.css",
+            "homepage": "https://github.com/tal7aouy/errors#readme",
+            "support": {
+                "issues": "https://github.com/tal7aouy/errors/issues",
+                "source": "https://github.com/tal7aouy/errors"
+            },
+            "time": "2022-03-30T12:50:48+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

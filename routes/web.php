@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdministratorMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Administrator\UserController;
 use App\Http\Controllers\Administrator\CompanyController;
@@ -33,14 +34,19 @@ Route::middleware([
 
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::namespace('\App\Http\Controllers')->group(function () {
+    Route::middleware(AdministratorMiddleware::class)->namespace('\App\Http\Controllers')->group(function () {
         Route::get('/administrator/user', [UserController::class, 'index'])->name('web.administrator.user.index');
         Route::get('/administrator/user/form', [UserController::class, 'formCreate'])->name('web.administrator.user.form-create');
         Route::get('/administrator/user/form/{id}', [UserController::class, 'formUpdate'])->name('web.administrator.user.form-update');
         Route::post('/administrator/user/create', [UserController::class, 'create'])->name('web.administrator.user.create');
         Route::post('/administrator/user/update', [UserController::class, 'update'])->name('web.administrator.user.update');
+
         Route::get('/administrator/company', [CompanyController::class, 'index'])->name('web.administrator.company.index');
-        Route::get('/administrator/company/create', [CompanyController::class, 'form'])->name('web.administrator.company.form');
+        Route::get('/administrator/company/form', [CompanyController::class, 'formCreate'])->name('web.administrator.company.form-create');
+        Route::get('/administrator/company/form/{id}', [CompanyController::class, 'formUpdate'])->name('web.administrator.company.form-update');
+        Route::post('/administrator/company/create', [CompanyController::class, 'create'])->name('web.administrator.company.create');
+        Route::post('/administrator/company/update', [CompanyController::class, 'update'])->name('web.administrator.company.update');
+
         Route::get('/administrator/procedure', [ProcedureController::class, 'index'])->name('web.administrator.procedure.index');
         Route::get('/administrator/procedure/create', [ProcedureController::class, 'form'])->name('web.administrator.procedure.form');
         Route::get('/administrator/reserve', [ReserveController::class, 'index'])->name('web.administrator.reserve.index');

@@ -7,14 +7,7 @@ use App\Models\User;
 class UserRepository
 {
     public function create($input){
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => $input['password'],
-            'phone_number' => $input['phone_number'],
-            "birth_date" => $input["birth_date"],
-            "active" => $input["active"]
-        ]);
+        return User::create($input);
     }
 
     public function getUserById($id)
@@ -24,6 +17,10 @@ class UserRepository
 
     public function update(string $id, $input){
         return User::where("id", $id)->update($input);
+    }
+
+    public function getUsersByType($userType){
+        return User::where("type", $userType)->get();
     }
 
 }

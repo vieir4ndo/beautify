@@ -48,4 +48,8 @@ class UserService
         }
         return $randomString;
     }
+
+    public function getUsersByType($userType){
+        return $this->userRepository->getUsersByType($userType);
+    }
 }

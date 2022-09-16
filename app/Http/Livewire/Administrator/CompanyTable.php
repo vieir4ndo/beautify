@@ -41,12 +41,12 @@ final class CompanyTable extends PowerGridComponent
 
     public function newCompanyEvent()
     {
-        return redirect()->route("web.administrator.company.form");
+        return redirect()->route("web.administrator.company.form-create");
     }
 
-    public function editCompany()
+    public function editCompany(array $data)
     {
-        return redirect()->route("web.administrator.company.form");
+        return redirect()->route("web.administrator.company.form-update", $data["id"]);
     }
 
     /*
@@ -91,14 +91,14 @@ final class CompanyTable extends PowerGridComponent
             'companies.email',
             'companies.phone_number',
             'companies.logo_path',
-            'companies.adress_post_code',
-            'companies.adress_street',
-            'companies.adress_complement',
-            'companies.adress_neighborhood',
-            'companies.adress_city',
-            'companies.adress_state',
+            'companies.address_post_code',
+            'companies.address_street',
+            'companies.address_complement',
+            'companies.address_neighborhood',
+            'companies.address_city',
+            'companies.address_state',
             'companies.facebook',
-            'companies.instragram',
+            'companies.instagram',
             'companies.whatsapp',
             'companies.administrator_id',
             'user.name as name_administrator',
@@ -145,14 +145,14 @@ final class CompanyTable extends PowerGridComponent
             ->addColumn('email')
             ->addColumn('phone_number', fn ($company) => $company->getPhoneNumberFormatted())
             ->addColumn('logo_path')
-            ->addColumn('adress_post_code')
-            ->addColumn('adress_street')
-            ->addColumn('adress_complement')
-            ->addColumn('adress_neighborhood')
-            ->addColumn('adress_city')
-            ->addColumn('adress_state')
+            ->addColumn('address_post_code')
+            ->addColumn('address_street')
+            ->addColumn('address_complement')
+            ->addColumn('address_neighborhood')
+            ->addColumn('address_city')
+            ->addColumn('address_state')
             ->addColumn('facebook')
-            ->addColumn('instragram')
+            ->addColumn('instagram')
             ->addColumn('whatsapp')
             ->addColumn('name_administrator');
     }
@@ -174,37 +174,37 @@ final class CompanyTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('CÓDIGO', 'id')
+            Column::make('Código', 'id')
                 ->makeInputRange(),
 
-            Column::make('NOME', 'name')
+            Column::make('Nome', 'name')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('NOME FANTASIA', 'fantasy_name')
+            Column::make('Nome Fantasia', 'fantasy_name')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('INSCRIÇÃO FEDERAL', 'federal_registration')
+            Column::make('Inscrição Federal', 'federal_registration')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
 
-            Column::make('E-MAIL', 'email')
+            Column::make('E-mail', 'email')
                 ->sortable()
                 ->searchable()
                 ->makeInputText()
                 ->clickToCopy(true),
 
-            Column::make('TELEFONE', 'phone_number')
+            Column::make('Telefone', 'phone_number')
                 ->sortable()
                 ->searchable()
                 ->makeInputText()
                 ->clickToCopy(true),
 
-            Column::make('ADMINISTRADOR', 'name_administrator')
+            Column::make('Administrador', 'name_administrator')
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
@@ -232,7 +232,7 @@ final class CompanyTable extends PowerGridComponent
             Button::add("edit")
                 ->caption('Editar')
                 ->class('cursor-pointer block bg-indigo-500 text-white border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
-                ->emit('editCompany', ['uid' => 'uid']),
+                ->emit('editCompany', ['id' => 'id']),
         ];
     }
 

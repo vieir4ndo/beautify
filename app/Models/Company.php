@@ -17,16 +17,17 @@ class Company extends Model
         'email',
         'phone_number',
         'logo_path',
-        'adress_post_code',
-        'adress_street',
-        'adress_complement',
-        'adress_neighborhood',
-        'adress_city',
-        'adress_state',
+        'address_post_code',
+        'address_street',
+        'address_complement',
+        'address_neighborhood',
+        'address_city',
+        'address_state',
         'facebook',
-        'instragram',
+        'instagram',
         'whatsapp',
-        'administrator_id'
+        'administrator_id',
+        "active"
     ];
 
     public $timestamps = false;

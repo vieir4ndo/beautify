@@ -16,6 +16,7 @@ class Procedure extends Model
         'duration',
         'image_path',
         'company_id',
+        "active"
     ];
 
     public $timestamps = false;

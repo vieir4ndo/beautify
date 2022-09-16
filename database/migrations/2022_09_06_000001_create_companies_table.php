@@ -22,15 +22,16 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone_number');
             $table->string('logo_path');
-            $table->string('adress_post_code');
-            $table->string('adress_street');
-            $table->string('adress_complement');
-            $table->string('adress_neighborhood');
-            $table->string('adress_city');
-            $table->string('adress_state');
+            $table->string('address_post_code');
+            $table->string('address_street');
+            $table->string('address_complement');
+            $table->string('address_neighborhood');
+            $table->string('address_city');
+            $table->string('address_state');
             $table->string('facebook')->nullable();
-            $table->string('instragram')->nullable();
+            $table->string('instagram')->nullable();
             $table->string('whatsapp')->nullable();
+            $table->string('active');
 
             $table->foreignId('administrator_id')->constrained('users');
         });

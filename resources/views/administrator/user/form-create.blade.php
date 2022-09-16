@@ -83,8 +83,16 @@
                                 <label class="block font-medium text-sm text-gray-700" for="phone_number">
                                     Empresa
                                 </label>
-                                <x-jet-input id="company_id" class="block mt-1 w-full" type="number" name="company_id"
-                                             :value="old('company_id')"/>
+                                <select id="company_id"
+                                        class="border border-gray-300 text-gray-900 rounded-md block mt-1 w-full"
+                                        name="company_id" autofocus
+                                        autocomplete="company_id">
+                                    <option value="" disabled selected>Selecione
+                                    </option>
+                                    @foreach($companies as $company)
+                                        <option value="{{$company->id}}"> {{ $company->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 

@@ -20,6 +20,7 @@ class CreateProceduresTable extends Migration
             $table->float('price');
             $table->time('duration');
             $table->string('image_path');
+            $table->boolean('active');
 
             $table->foreignId('company_id')->constrained('companies');
         });
