@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserType;
 use Illuminate\Database\Seeder;
-use Database\Seeders\AdministratorUserSeeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
