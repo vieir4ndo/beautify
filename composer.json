@@ -18,10 +18,10 @@
         "openspout/openspout": "^4.7",
         "power-components/livewire-powergrid": "^3.3",
         "realrashid/sweet-alert": "^5.1",
-        "tal7aouy/errors": "^1.0"
+        "tal7aouy/errors": "^1.0",
+        "fakerphp/faker": "^1.9.1",,
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.16",
         "mockery/mockery": "^1.4.4",
