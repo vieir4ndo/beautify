@@ -96,7 +96,7 @@
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}"
                                                 @if($user->company_id == $company->id) selected @endif
-                                        > {{ $company->name }}</option>
+                                        > {{ $company->fantasy_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

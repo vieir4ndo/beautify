@@ -90,7 +90,7 @@
                                     <option value="" selected>Selecione
                                     </option>
                                     @foreach($companies as $company)
-                                        <option value="{{$company->id}}"> {{ $company->name }}</option>
+                                        <option value="{{$company->id}}"> {{ $company->fantasy_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
