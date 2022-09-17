@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Administrator;
 
+use App\Helpers\StringHelper;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
@@ -116,7 +117,7 @@ final class UserTable extends PowerGridComponent
             ->addColumn('id')
             ->addColumn('name')
             ->addColumn('email')
-            ->addColumn('phone_number', fn ($user) => $user->getPhoneNumberFormatted())
+            ->addColumn('phone_number', fn ($user) => StringHelper::formatPhoneNumber($user->phone_number))
             ->addColumn('type', fn ($user) => User::types()->firstWhere('type', $user->type)['label'])
             ->addColumn('active', fn ($user) => User::activity()->firstWhere('active', $user->active)['label'])
             ->addColumn('birth_date_formatted', fn (User $model) => ($model->birth_date != null) ? Carbon::parse($model->birth_date)->format('d/m/Y') : null)

@@ -87,7 +87,7 @@
                                         class="border border-gray-300 text-gray-900 rounded-md block mt-1 w-full"
                                         name="company_id" autofocus
                                         autocomplete="company_id">
-                                    <option value="" disabled selected>Selecione
+                                    <option value="" selected>Selecione
                                     </option>
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}"> {{ $company->name }}</option>
@@ -102,7 +102,7 @@
                                     Ativo
                                 </label>
                                 <select id="active"
-                                        class="border border-gray-300 text-gray-900 rounded-md block mt-1 w-full"
+                                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
                                         name="active" required autofocus
                                         autocomplete="active">
                                     <option value="" disabled selected>Selecione

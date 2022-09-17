@@ -22,6 +22,8 @@ class UserService
         }
         $input['password'] = Hash::make($this->generateRandomPassword());
 
+        // TODO Implement to send this password to the user`s e-mail
+
         return $this->userRepository->create($input);
     }
 
@@ -37,6 +39,12 @@ class UserService
     {
         return $this->userRepository->getUserById($id);
     }
+
+    public function getUserByEmail($email)
+    {
+        return $this->userRepository->getUserByEmail($email);
+    }
+
 
     private static function generateRandomPassword($length = 10)
     {

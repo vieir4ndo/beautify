@@ -27,7 +27,7 @@
                                     Tipo
                                 </label>
                                 <select id="type"
-                                        class="border border-gray-300 text-gray-900 rounded-md block mt-1 w-full"
+                                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
                                         name="type" required autofocus
                                         autocomplete="type">
                                     <option value="" disabled>Selecione
@@ -61,7 +61,7 @@
                                     class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
                                     id="phone_number" type="text" name="phone_number" required="required"
                                     autofocus="autofocus" autocomplete="phone_number"
-                                    value="{{$user->phone_number}}">
+                                    value="{{\App\Helpers\StringHelper::formatPhoneNumber($user->phone_number)}}">
                             </div>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
                                 <label class="block font-medium text-sm text-gray-700" for="email">
@@ -87,8 +87,18 @@
                                 <label class="block font-medium text-sm text-gray-700" for="birth_date">
                                     Empresa
                                 </label>
-                                <x-jet-input id="company_id" class="block mt-1 w-full" type="number" name="company_id"
-                                             :value="old('company_id')"/>
+                                <select id="company_id"
+                                        class="border border-gray-300 text-gray-900 rounded-md block mt-1 w-full"
+                                        name="company_id" autofocus
+                                        autocomplete="company_id">
+                                    <option value="" selected>Selecione
+                                    </option>
+                                    @foreach($companies as $company)
+                                        <option value="{{$company->id}}"
+                                                @if($user->company_id == $company->id) selected @endif
+                                        > {{ $company->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -98,10 +108,10 @@
                                     Ativo
                                 </label>
                                 <select id="active"
-                                        class="border border-gray-300 text-gray-900 rounded-md block mt-1 w-full"
+                                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block mt-1 w-full"
                                         name="active" required autofocus
                                         autocomplete="active">
-                                    <option value="" disabled>Selecione
+                                    <option value="">Selecione
                                     </option>
                                     <option value="false"
                                             @if($user->active == false) selected @endif

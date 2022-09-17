@@ -1,5 +1,5 @@
 <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-    {{ __('Dashboard') }}
+    {{ __('Início') }}
 </x-jet-responsive-nav-link>
 <x-jet-responsive-nav-link href="{{ route('web.administrator.user.index') }}" :active="request()->routeIs('web.administrator.user.index')">
     {{ __('Usuários') }}

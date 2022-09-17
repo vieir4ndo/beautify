@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Administrator;
 
+use App\Helpers\StringHelper;
 use App\Models\Company;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -141,9 +142,9 @@ final class CompanyTable extends PowerGridComponent
             ->addColumn('name')
             ->addColumn('fantasy_name')
             ->addColumn('description')
-            ->addColumn('federal_registration', fn ($company) => $company->getFederalRegistrationFormatted())
+            ->addColumn('federal_registration', fn ($company) => StringHelper::formatFederalRegistration($company->federal_registration))
             ->addColumn('email')
-            ->addColumn('phone_number', fn ($company) => $company->getPhoneNumberFormatted())
+            ->addColumn('phone_number', fn ($company) => StringHelper::formatPhoneNumber($company->phone_number))
             ->addColumn('logo_path')
             ->addColumn('address_post_code')
             ->addColumn('address_street')

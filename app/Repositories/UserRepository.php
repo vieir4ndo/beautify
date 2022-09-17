@@ -15,6 +15,11 @@ class UserRepository
         return User::where("id", $id)->first();
     }
 
+    public function getUserByEmail($email)
+    {
+        return User::where("email", $email)->first();
+    }
+
     public function update(string $id, $input){
         return User::where("id", $id)->update($input);
     }

@@ -19,7 +19,7 @@ use App\Http\Controllers\Administrator\ReserveController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route("login");
 });
 
 Route::middleware([
@@ -31,8 +31,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
-
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::middleware(AdministratorMiddleware::class)->namespace('\App\Http\Controllers')->group(function () {
         Route::get('/administrator/user', [UserController::class, 'index'])->name('web.administrator.user.index');

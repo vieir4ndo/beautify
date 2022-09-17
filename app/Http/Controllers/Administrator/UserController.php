@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administrator;
 
+use App\Helpers\StringHelper;
 use App\Http\Validators\UserValidator;
 use App\Services\CompanyService;
 use App\Services\UserService;
@@ -91,14 +92,14 @@ class UserController extends Controller
         try {
             $input = [
                 "name" => $request["name"],
-                "phone_number" => $request["phone_number"],
+                "phone_number" => StringHelper::onlyNumbers($request["phone_number"]),
                 "type" => $request["type"],
                 "company_id" => $request["company_id"],
                 "birth_date" => $request["birth_date"],
                 "active" => $request["active"] == "true",
             ];
 
-            $validation = Validator::make($input, UserValidator::updateRules($request["email"], $request["phone_number"]));
+            $validation = Validator::make($input, UserValidator::updateRules($request["email"], $input["phone_number"]));
 
             if ($validation->fails()) {
                 toast(Arr::flatten($validation->errors()->all()), 'error');

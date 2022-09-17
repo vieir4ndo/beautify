@@ -20,4 +20,13 @@ class CompanyService
     public function create($input){
         return $this->repository->create($input);
     }
+
+    public function getCompanyById($id){
+        return $this->repository->getCompanyById($id);
+    }
+
+    public function update($id, $input)
+    {
+        return $this->repository->update($id, $input);
+    }
 }
