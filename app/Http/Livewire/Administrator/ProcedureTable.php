@@ -54,12 +54,12 @@ final class ProcedureTable extends PowerGridComponent
 
     public function newProcedureEvent()
     {
-        return redirect()->route("web.administrator.procedure.form");
+        return redirect()->route("web.administrator.procedure.form-create");
     }
 
-    public function editProcedure()
+    public function editProcedure(array $data)
     {
-        return redirect()->route("web.administrator.procedure.form");
+        return redirect()->route("web.administrator.procedure.form-update", $data["id"]);
     }
 
     /*
@@ -215,7 +215,7 @@ final class ProcedureTable extends PowerGridComponent
             Button::add("edit")
                 ->caption('Editar')
                 ->class('cursor-pointer block bg-indigo-500 text-white border border-gray-300 rounded py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-600 dark:border-gray-500 dark:bg-gray-500 2xl:dark:placeholder-gray-300 dark:text-gray-200 dark:text-gray-300')
-                ->emit('editProcedure', ['uid' => 'uid']),
+                ->emit('editProcedure', ['id' => 'id']),
         ];
     }
 
