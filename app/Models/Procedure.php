@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Procedure extends Model
 {
@@ -20,4 +21,14 @@ class Procedure extends Model
     ];
 
     public $timestamps = false;
+
+    public static function activity(): Collection
+    {
+        return collect(
+            [
+                ['active' => true,  'label' => 'Sim'],
+                ['active' => false,  'label' => 'Não'],
+            ]
+        );
+    }
 }

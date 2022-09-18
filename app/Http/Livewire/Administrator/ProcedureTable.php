@@ -3,11 +3,16 @@
 namespace App\Http\Livewire\Administrator;
 
 use App\Models\Procedure;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
-use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
+use PowerComponents\LivewirePowerGrid\{Button,
+    Column,
+    Footer,
+    Header,
+    PowerGrid,
+    PowerGridComponent,
+    PowerGridEloquent};
 
 final class ProcedureTable extends PowerGridComponent
 {
@@ -134,7 +139,8 @@ final class ProcedureTable extends PowerGridComponent
             ->addColumn('description')
             ->addColumn('duration')
             ->addColumn('price')
-            ->addColumn('name');
+            ->addColumn('name')
+            ->addColumn('active', fn($procedure) => Procedure::activity()->firstWhere('active', $procedure->active)['label']);
     }
 
     /*
@@ -154,28 +160,38 @@ final class ProcedureTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('CÓDIGO', 'id')
-                ->searchable(),
+            Column::make('Código', 'id')
+                ->makeInputRange(),
 
-            Column::make('TÍTULO', 'title')
+            Column::make('Título', 'title')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->makeInputText(),
 
-            Column::make('DESCRIÇÃO', 'description')
+            Column::make('Descrição', 'description')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->makeInputText(),
 
-            Column::make('DURAÇÃO', 'duration')
+            Column::make('Duração', 'duration')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->makeInputText(),
 
-            Column::make('PREÇO', 'price')
+            Column::make('Preço', 'price')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->makeInputRange(),
 
-            Column::make('EMPRESA', 'name')
-                ->searchable(),
+            Column::make('Empresa', 'name')
+                ->sortable()
+                ->searchable()
+                ->makeInputText(),
 
+            Column::make('Ativo', 'active')
+                ->field('active', 'active')
+                ->makeInputSelect(Procedure::activity(), 'label', "active")
+                ->searchable(),
         ];
     }
 

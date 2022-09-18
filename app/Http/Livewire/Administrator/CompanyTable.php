@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Administrator;
 
 use App\Helpers\StringHelper;
 use App\Models\Company;
+use App\Models\Procedure;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
@@ -102,6 +104,7 @@ final class CompanyTable extends PowerGridComponent
             'companies.instagram',
             'companies.whatsapp',
             'companies.administrator_id',
+            'companies.active',
             'user.name as name_administrator',
         ])->orderBy('companies.id', 'asc');
     }
@@ -155,7 +158,8 @@ final class CompanyTable extends PowerGridComponent
             ->addColumn('facebook')
             ->addColumn('instagram')
             ->addColumn('whatsapp')
-            ->addColumn('name_administrator');
+            ->addColumn('active', fn($company) => Company::activity()->firstWhere('active', $company->active)['label'])
+        ->addColumn('name_administrator');
     }
 
     /*
@@ -209,6 +213,11 @@ final class CompanyTable extends PowerGridComponent
                 ->sortable()
                 ->searchable()
                 ->makeInputText(),
+
+            Column::make('Ativo', 'active')
+                ->field('active', 'active')
+                ->makeInputSelect(Company::activity(), 'label', "active")
+                ->searchable(),
 
         ];
     }

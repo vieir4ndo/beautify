@@ -174,6 +174,7 @@ final class UserTable extends PowerGridComponent
 
             Column::make('Data de Nascimento', 'birth_date_formatted', 'birth_date')
                 ->sortable()
+                ->searchable()
                 ->makeInputDatePicker('date')
         ];
     }
