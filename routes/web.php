@@ -46,10 +46,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::post('/administrator/company/update', [CompanyController::class, 'update'])->name('web.administrator.company.update');
 
         Route::get('/administrator/procedure', [ProcedureController::class, 'index'])->name('web.administrator.procedure.index');
-        Route::get('/administrator/procedure/form', [ProcedureController::class, 'formCreate'])->name('web.administrator.procedure.form-create');
-        Route::get('/administrator/procedure/form/{id}', [ProcedureController::class, 'formUpdate'])->name('web.administrator.procedure.form-update');
+        Route::get('/administrator/procedure/form/{id?}', [ProcedureController::class, 'form'])->name('web.administrator.procedure.form');
         Route::post('/administrator/procedure/create', [ProcedureController::class, 'create'])->name('web.administrator.procedure.create');
-        Route::post('/administrator/procedure/update', [ProcedureController::class, 'update'])->name('web.administrator.procedure.update');
+        Route::post('/administrator/procedure/update/{id}', [ProcedureController::class, 'update'])->name('web.administrator.procedure.update');
 
         Route::get('/administrator/reserve', [ReserveController::class, 'index'])->name('web.administrator.reserve.index');
         Route::get('/administrator/reserve/create', [ReserveController::class, 'form'])->name('web.administrator.reserve.form');

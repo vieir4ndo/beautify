@@ -13,12 +13,18 @@ class ProcedureService
         $this->repository = $repository;
     }
 
-    public function create($input){
+    public function create($input)
+    {
         return $this->repository->create($input);
     }
 
     public function update($id, $input)
     {
         return $this->repository->update($id, $input);
+    }
+
+    public function getProcedureById($id)
+    {
+        return $this->repository->getProcedureById($id);
     }
 }

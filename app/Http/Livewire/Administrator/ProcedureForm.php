@@ -2,41 +2,40 @@
 
 namespace App\Http\Livewire\Administrator;
 
-use App\Services\CompanyService;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ProcedureForm extends Component
 {
-    private CompanyService $companyService;
-
-    public $title = "";
-    public $description = "";
-    public $duration = "";
-    public $price = "";
-    public $company_id = "";
-    public $active = "";
-    public $image_path = "";
+    public $companies;
+    public $procedure_id = null;
+    public $title = null;
+    public $description = null;
+    public $duration = null;
+    public $price = null;
+    public $company_id = null;
+    public $active = null;
+    public $image_path = null;
 
     // TODO Add rules to the form itself and not the controller
 
     // TODO Find a way to use the same form for creation and update
 
-    public function boot(CompanyService $companyService)
+    public function mount($procedure, $companies)
     {
-        $this->companyService = $companyService;
+        $this->companies = $companies;
+
+        $this->procedure_id = $procedure["id"] ?? null;
+        $this->title = $procedure["title"] ?? null;
+        $this->description = $procedure["description"] ?? null;
+        $this->duration = $procedure["duration"] ?? null;
+        $this->price = $procedure["price"] ?? null;
+        $this->company_id = $procedure["company_id"] ?? null;
+        $this->active = $procedure["active"] ?? null;
+        $this->image_path = $procedure["image_path"] ?? null;
     }
 
     public function render()
     {
-        try {
-            $companies = $this->companyService->getAllCompanies();
-
-            return view('livewire.administrator.procedure-form', ["companies" => $companies]);
-        } catch (\Exception $e) {
-            Log::error($e);
-            toast("Houve um erro ao processar sua solicitação, tente novamente.", 'error');
-            return back();
-        }
+        return view('livewire.administrator.procedure-form');
     }
 }

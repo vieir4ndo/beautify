@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Administrator;
 
 use App\Models\Procedure;
 use Illuminate\Database\Eloquent\Builder;
-use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
+use PowerComponents\LivewirePowerGrid\Rules\{RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button,
     Column,
@@ -12,7 +12,8 @@ use PowerComponents\LivewirePowerGrid\{Button,
     Header,
     PowerGrid,
     PowerGridComponent,
-    PowerGridEloquent};
+    PowerGridEloquent
+};
 
 final class ProcedureTable extends PowerGridComponent
 {
@@ -54,12 +55,12 @@ final class ProcedureTable extends PowerGridComponent
 
     public function newProcedureEvent()
     {
-        return redirect()->route("web.administrator.procedure.form-create");
+        return redirect()->route("web.administrator.procedure.form");
     }
 
     public function editProcedure(array $data)
     {
-        return redirect()->route("web.administrator.procedure.form-update", $data["id"]);
+        return redirect()->route("web.administrator.procedure.form", $data["id"]);
     }
 
     /*
@@ -101,6 +102,7 @@ final class ProcedureTable extends PowerGridComponent
             'procedures.description',
             'procedures.price',
             'procedures.duration',
+            'procedures.active',
             'company.name',
         ])->orderBy('procedures.id', 'asc');
     }

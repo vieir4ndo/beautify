@@ -1,4 +1,10 @@
-<form method="POST" action="{{ route('web.administrator.procedure.create') }}">
+<form method="POST"
+      @if ($procedure_id != null)
+          action="{{ route('web.administrator.procedure.update', $procedure_id) }}"
+      @else
+          action="{{ route('web.administrator.procedure.create') }}"
+    @endif
+>
     @csrf
     <div class="flex flex-wrap -mx-3 mb-3">
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
@@ -63,7 +69,8 @@
     <div class="flex flex-wrap -mx-3 mb-3">
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
             <x-jet-label for="image_path" value="{{ __('Imagem') }}"/>
-            <x-jet-input id="image_path" class="block mt-1 w-full" type="text" name="image_path" :value="old('image_path')"
+            <x-jet-input id="image_path" class="block mt-1 w-full" type="text" name="image_path"
+                         :value="old('image_path')"
                          wire:model="image_path"
                          required autofocus/>
         </div>
