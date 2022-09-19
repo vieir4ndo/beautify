@@ -20,10 +20,6 @@ class ProcedureForm extends Component
     public $image_path = null;
     public $photo;
 
-    // TODO Add rules to the form itself and not the controller
-
-    // TODO Find a way to use the same form for creation and update
-
     public function mount($procedure, $companies)
     {
         $this->companies = $companies;
@@ -42,6 +38,8 @@ class ProcedureForm extends Component
     {
         return view('livewire.administrator.procedure-form');
     }
+
+    // TODO Implement to save the photo permanently
 
     public function save()
     {
