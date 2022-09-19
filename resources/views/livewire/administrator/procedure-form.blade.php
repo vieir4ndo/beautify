@@ -68,11 +68,26 @@
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
-            <x-jet-label for="image_path" value="{{ __('Imagem') }}"/>
-            <x-jet-input id="image_path" class="block mt-1 w-full" type="text" name="image_path"
-                         :value="old('image_path')"
-                         wire:model="image_path"
-                         required autofocus/>
+            <x-jet-label for="photo" value="{{ __('Imagem') }}"/>
+            <input
+                class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                id="photo" name="photo" type="file" accept="image/*" wire:model="photo">
+            <input type="hidden" id="image_path" name="image_path"
+                   @if ($photo)
+                       value="{{ $photo->temporaryUrl() }}"
+                @endif
+            >
+        </div>
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
+            <img id="image-output" class="w-20 h-20 rounded-full object-cover"
+                 @if ($photo)
+                     src="{{ $photo->temporaryUrl() }}"
+                 @elseif ($image_path)
+                     src="{{ $image_path }}"
+                 @else
+                     src="{{url('/assets/images/img-user-default.png')}}"
+                @endif
+            />
         </div>
     </div>
     <div class="flex justify-end -mx-3 p-3">
