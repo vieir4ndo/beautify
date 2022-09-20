@@ -43,12 +43,12 @@ final class UserTable extends PowerGridComponent
 
     public function newUserEvent()
     {
-        return redirect()->route("web.administrator.user.form-create");
+        return redirect()->route("web.administrator.user.form");
     }
 
     public function editUser(array $data)
     {
-        return redirect()->route("web.administrator.user.form-update", $data["id"]);
+        return redirect()->route("web.administrator.user.form", $data["id"]);
     }
 
     /*

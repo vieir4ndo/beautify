@@ -29,26 +29,17 @@ class UserController extends Controller
         return view("administrator.user.index");
     }
 
-    public function formCreate()
+    public function form($id = null)
     {
         try {
             $companies = $this->companyService->getAllCompanies();
 
-            return view("administrator.user.form-create", ["companies" => $companies]);
-        } catch (\Exception $e) {
-            toast("Houve um erro ao processar sua solicitação, tente novamente.", 'error');
-            return back();
-        }
-    }
+            $user = ($id != null) ? $this->userService->getUserById($id) : null;
 
-    public function formUpdate($id)
-    {
-        try {
-            $companies = $this->companyService->getAllCompanies();
-
-            $user = $this->userService->getUserById($id);
-
-            return view("administrator.user.form-update", ["user" => $user, "companies" => $companies]);
+            return view("administrator.user.form", [
+                "title" => ($user != null) ? "Editar" : "Novo",
+                "user" => $user,
+                "companies" => $companies]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             toast("Houve um erro ao processar sua solicitação, tente novamente.", 'error');
@@ -66,6 +57,7 @@ class UserController extends Controller
                 "type" => $request["type"],
                 "company_id" => $request["company_id"],
                 "birth_date" => $request["birth_date"],
+                "profile_photo_url" => $request["profile_photo_url"],
                 "active" => $request["active"] == "true",
             ];
 
@@ -87,7 +79,7 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         try {
             $input = [
@@ -106,7 +98,7 @@ class UserController extends Controller
                 return back();
             }
 
-            $this->userService->update($request["id"], $input);
+            $this->userService->update($id, $input);
 
             toast('Operação realizada com sucesso!', 'success');
             return redirect()->route("web.administrator.user.index");
