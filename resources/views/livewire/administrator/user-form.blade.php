@@ -117,7 +117,7 @@
                  @elseif ($profile_photo_url)
                      src="{{ $profile_photo_url }}"
                  @else
-                     src="{{ $profile_photo_url }}"
+                     src="{{url('/assets/images/img-user-default.png')}}"
                 @endif
             />
         </div>
