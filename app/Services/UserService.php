@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -17,18 +18,35 @@ class UserService
 
     public function create($input)
     {
+        $photo = $input['photo'];
+        unset($input['photo']);
+
         if ($input['birth_date'] != null) {
             $input['birth_date'] = Carbon::parse($input['birth_date'])->format("Y-m-d");
         }
+
         $input['password'] = Hash::make($this->generateRandomPassword());
 
         // TODO Implement to send this password to the user`s e-mail
 
-        return $this->userRepository->create($input);
+        $userDb = $this->userRepository->create($input);
+
+        if (isset($photo)) {
+            $userDb->updateProfilePhoto($input['photo']);
+        }
+
+        return $userDb;
     }
 
     public function update($id, $input)
     {
+        $userDb = $this->userRepository->getUserById($id);
+
+        if (isset($input['photo'])) {
+            $userDb->updateProfilePhoto($input['photo']);
+        }
+        unset($input['photo']);
+
         if (isset($input['birth_date'])) {
             $input['birth_date'] = Carbon::parse($input['birth_date'])->format("Y-m-d");
         }
@@ -44,7 +62,6 @@ class UserService
     {
         return $this->userRepository->getUserByEmail($email);
     }
-
 
     private static function generateRandomPassword($length = 10)
     {

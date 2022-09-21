@@ -6,17 +6,18 @@ use App\Helpers\StringHelper;
 use App\Http\Validators\UserValidator;
 use App\Services\CompanyService;
 use App\Services\UserService;
+use Faker\Provider\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
 {
     private UserService $userService;
     private CompanyService $companyService;
-
 
     public function __construct(UserService $userService, CompanyService $companyService)
     {
@@ -57,7 +58,7 @@ class UserController extends Controller
                 "type" => $request["type"],
                 "company_id" => $request["company_id"],
                 "birth_date" => $request["birth_date"],
-                "profile_photo_url" => $request["profile_photo_url"],
+                "photo" => $request["photo"],
                 "active" => $request["active"] == "true",
             ];
 
@@ -89,6 +90,7 @@ class UserController extends Controller
                 "company_id" => $request["company_id"],
                 "birth_date" => $request["birth_date"],
                 "active" => $request["active"] == "true",
+                "photo" => $request["photo"],
             ];
 
             $validation = Validator::make($input, UserValidator::updateRules($request["email"], $input["phone_number"]));

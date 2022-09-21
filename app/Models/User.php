@@ -60,11 +60,12 @@ class User extends Authenticatable
      * The accessors to append to the model's array form.
      *
      * @var array
+     *
      */
+
     protected $appends = [
         'profile_photo_url',
     ];
-
 
     public function isAdministrator()
     {
@@ -85,9 +86,9 @@ class User extends Authenticatable
     {
         return collect(
             [
-                ['type' => 1,  'label' => 'Administrador'],
-                ['type' => 2,  'label' => 'Administrador de Empresa'],
-                ['type' => 3,  'label' => 'Funcionário'],
+                ['type' => 1, 'label' => 'Administrador'],
+                ['type' => 2, 'label' => 'Administrador de Empresa'],
+                ['type' => 3, 'label' => 'Funcionário'],
                 ['type' => 4, 'label' => 'Cliente'],
             ]
         );
@@ -97,8 +98,8 @@ class User extends Authenticatable
     {
         return collect(
             [
-                ['active' => true,  'label' => 'Sim'],
-                ['active' => false,  'label' => 'Não'],
+                ['active' => true, 'label' => 'Sim'],
+                ['active' => false, 'label' => 'Não'],
             ]
         );
     }

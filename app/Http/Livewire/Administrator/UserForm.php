@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Administrator;
 
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -39,16 +40,5 @@ class UserForm extends Component
     public function render()
     {
         return view('livewire.administrator.user-form');
-    }
-
-    // TODO Implement to save the photo permanently
-
-    public function save()
-    {
-        $this->validate([
-            'photo' => 'image|max:1024', // 1MB Max
-        ]);
-
-        $this->photo->store('photos');
     }
 }

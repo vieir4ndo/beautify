@@ -1,4 +1,4 @@
-<form method="POST"
+<form method="POST" enctype="multipart/form-data"
       @if ($user_id != null)
           action="{{ route('web.administrator.user.update', $user_id) }}"
       @else
@@ -109,11 +109,6 @@
             <input
                 class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="photo" name="photo" type="file" accept="image/*" wire:model="photo">
-            <input type="hidden" id="profile_photo_url" name="profile_photo_url"
-                   @if ($photo)
-                       value="{{ $photo->temporaryUrl() }}"
-                @endif
-            >
         </div>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-5">
             <img id="image-output" class="w-20 h-20 rounded-full object-cover"
@@ -122,7 +117,7 @@
                  @elseif ($profile_photo_url)
                      src="{{ $profile_photo_url }}"
                  @else
-                     src="{{url('/assets/images/img-user-default.png')}}"
+                     src="{{ $profile_photo_url }}"
                 @endif
             />
         </div>
