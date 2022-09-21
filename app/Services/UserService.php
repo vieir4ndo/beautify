@@ -32,7 +32,7 @@ class UserService
         $userDb = $this->userRepository->create($input);
 
         if (isset($photo)) {
-            $userDb->updateProfilePhoto($input['photo']);
+            $userDb->updateProfilePhoto($photo);
         }
 
         return $userDb;
