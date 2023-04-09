@@ -13,6 +13,9 @@ export class User {
     @Column()
     email: string
 
+    @Column({ default: true })
+    active: boolean
+
     constructor(name: string, email: string) {
         this.name = name;
         this.email = email;
