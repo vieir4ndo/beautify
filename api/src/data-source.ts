@@ -3,6 +3,7 @@ import { DataSource } from "typeorm"
 import { User } from "./entity/User"
 
 export const AppDataSource = new DataSource({
+    //todo: get vars from environment
     type: "postgres",
     host: "localhost",
     port: 5432,
