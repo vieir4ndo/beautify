@@ -12,21 +12,21 @@ export class UserController implements IUserController {
 
         const user = new User(name, email);
 
-        var savedUser = await userService.save(user);
+        let savedUser = await userService.save(user);
 
         response.json(savedUser);
     }
 
     async getAll(request: Request, response: Response) {
 
-        var allUsers = await userService.getAll();
+        let allUsers = await userService.getAll();
 
         response.json(allUsers);
     }
 
     async getById(request: Request, response: Response) {
 
-        var user = await userService.getById(parseInt(request.params.id));
+        let user = await userService.getById(parseInt(request.params.id));
 
         response.json(user);
     }
@@ -42,7 +42,7 @@ export class UserController implements IUserController {
 
         const user = new User(name, email);
 
-        var userSaved = await userService.updateById(parseInt(request.params.id), user);
+        let userSaved = await userService.updateById(parseInt(request.params.id), user);
 
         response.json(userSaved);
     }
