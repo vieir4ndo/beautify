@@ -1,6 +1,10 @@
+import { UserController } from './../controller/UserControler';
 import { Router, response } from 'express';
 import { request } from 'http';
+import { User } from '../entity/User';
 
 export const routerUser = Router();
+const userController = new UserController();
 
-routerUser.get('/', (request, response) => response.send('Serviços de usuário'));
+
+routerUser.post('/', userController.save);
