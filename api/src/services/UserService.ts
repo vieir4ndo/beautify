@@ -16,17 +16,17 @@ export class UserService implements IUserService {
         return await userRepository.find();
     }
 
-    async getById(id): Promise<User> {
+    async getById(id: number): Promise<User> {
         return await userRepository.findOneBy({ id: id });
     }
 
-    async deleteById(id) {
+    async deleteById(id: number) {
         const user = await userRepository.findOneBy({ id: id });
 
         await userRepository.delete(user);
     }
 
-    async updateById(id, user: User): Promise<User> {
+    async updateById(id: number, user: User): Promise<User> {
         const userDb = await userRepository.findOneBy({ id: id });
 
         userDb.name = user.name;

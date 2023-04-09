@@ -5,20 +5,21 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 export class User {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    name: string
+    name: string;
 
     @Column()
-    email: string
+    email: string;
 
     @Column({ default: true })
-    active: boolean
+    active: boolean;
 
     constructor(name: string, email: string) {
         this.name = name;
         this.email = email;
+        this.active = true;
     }
 
 }

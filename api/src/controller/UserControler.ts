@@ -26,13 +26,13 @@ export class UserController implements IUserController {
 
     async getById(request: Request, response: Response) {
 
-        var user = await userService.getById(request.params.id);
+        var user = await userService.getById(parseInt(request.params.id));
 
         response.json(user);
     }
 
     async deleteById(request: Request, response: Response) {
-        await userService.deleteById(request.params.id);
+        await userService.deleteById(parseInt(request.params.id));
 
         response.send().status(204);
     }
@@ -42,7 +42,7 @@ export class UserController implements IUserController {
 
         const user = new User(name, email);
 
-        var userSaved = await userService.updateById(request.params.id, user);
+        var userSaved = await userService.updateById(parseInt(request.params.id), user);
 
         response.json(userSaved);
     }
