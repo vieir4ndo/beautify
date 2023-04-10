@@ -1,4 +1,4 @@
-import { User } from '../entity/User';
+import { User } from '../entities/User';
 
 import { AppDataSource } from "../data-source";
 import { IUserService } from './abstractions/IUserService';
