@@ -36,18 +36,18 @@ services:
     environment:
       PORT: ${API_PORT}
 
-  # web_beautify:
-  #   container_name: web_beautify
-  #   build:
-  #     context: ./web
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - /web/node_modules
-  #     - ./web:/web
-  #   depends_on:
-  #     - api_beautify
-  #   stdin_open: true
-  #   environment:
-  #     - WATCHPACK_POLLING=true
-  #   ports:  
-  #     - '${WEB_PORT}:${WEB_PORT}'
+  web_beautify:
+    container_name: web_beautify
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    volumes:
+      - /web/node_modules
+      - ./web:/web
+    depends_on:
+      - api_beautify
+    stdin_open: true
+    environment:
+      - WATCHPACK_POLLING=true
+    ports:  
+      - '${WEB_PORT}:3000'
