@@ -35,6 +35,7 @@ services:
         condition: service_healthy
     environment:
       PORT: ${API_PORT}
+      WATCHPACK_POLLING: true
 
   web_beautify:
     container_name: web_beautify
@@ -50,4 +51,4 @@ services:
     environment:
       - WATCHPACK_POLLING=true
     ports:  
-      - '${WEB_PORT}:3000'
+      - '${WEB_PORT}:${WEB_PORT}'

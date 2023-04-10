@@ -12,4 +12,4 @@ ENV DB_HOST='db_beautify'
 
 EXPOSE $API_PORT
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
