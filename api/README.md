@@ -8,3 +8,6 @@ Steps to run this project:
 2. Setup database settings inside `data-source.ts` file
 3. Run `npm start` command
 
+sudo lsof -i :8000
+kill -9 <PID>
+
