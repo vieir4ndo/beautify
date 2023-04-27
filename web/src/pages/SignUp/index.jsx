@@ -52,7 +52,6 @@ const SignUp = () => {
                 <TextField
                   required
                   fullWidth
-                  autoFocus
                   name="telephone"
                   variant="outlined"
                   id="telephone"
