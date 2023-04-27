@@ -87,6 +87,9 @@ const warning = orange
 const success = green
 
 const theme = {
+  typography: {
+    'fontFamily': `'Montserrat', sans-serif`,
+  },
   palette: {
     primary,   /*usada para representar os elementos de interface primários para um usuário. É a cor mais frequentemente exibida nas telas e componentes do seu aplicativo.*/
     secondary, /*usada para representar os elementos de interface secundários para um usuário. Ela fornece mais maneiras de realçar e distinguir o seu produto. Tê-la é opcional.*/
