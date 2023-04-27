@@ -20,6 +20,10 @@ export class UserService implements IUserService {
         return await userRepository.findOneBy({ id: id });
     }
 
+    async getByEmail(email: string): Promise<User> {
+        return await userRepository.findOneBy({ email: email });
+    }
+
     async deleteById(id: number) {
         const user = await userRepository.findOneBy({ id: id });
 
