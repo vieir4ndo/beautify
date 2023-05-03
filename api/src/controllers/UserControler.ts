@@ -16,7 +16,7 @@ export class UserController implements IUserController {
             name: 'required|min:3|max:150',
             email: 'required|max:256|email|email_available',
             password: 'required|min:8|confirmed',
-            phoneNumber: 'required|max:14'
+            phoneNumber: 'required|max:14|phone_number'
         });
 
         validation.setAttributeNames({
@@ -81,3 +81,7 @@ Validator.registerAsync('email_available', async function (email, attribute, req
     }
 
 });
+
+Validator.register('phone_number', function(phone, req, attribute) {
+    return phone.length === 14;
+  }, 'O :attribute não é um número de telefone válido');

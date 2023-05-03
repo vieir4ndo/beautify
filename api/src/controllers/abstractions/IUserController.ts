@@ -7,4 +7,5 @@ export interface IUserController {
     getById(request: Request, response: Response): void;
     deleteById(request: Request, response: Response): void;
     updateById(request: Request, response: Response): void;
+
 }
