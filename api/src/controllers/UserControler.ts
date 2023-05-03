@@ -3,6 +3,7 @@ import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
 import * as Validator from 'validatorjs';
+import * as bcrypt from 'bcrypt';
 
 const userService = new UserService();
 
@@ -33,11 +34,21 @@ export class UserController implements IUserController {
         validation.passes(async () => {
             const { name, email, password, phoneNumber } = request.body;
 
-            const user = new User(name, email, password, phoneNumber);
+            bcrypt.hash(password, 10, async (err, hash) => {
 
-            let savedUser = await userService.save(user);
+                if (err) {
+                    response.json({message: 'Erro ao salvar senha do usuário.'})
+                }
 
-            response.json(savedUser);
+                const user = new User(name, email, hash, phoneNumber);
+
+                let savedUser = await userService.save(user);
+
+                delete savedUser['password'];
+    
+                response.json(savedUser);
+            });
+
         });
     }
 
@@ -82,6 +93,6 @@ Validator.registerAsync('email_available', async function (email, attribute, req
 
 });
 
-Validator.register('phone_number', function(phone, req, attribute) {
+Validator.register('phone_number', function (phone, req, attribute) {
     return phone.length === 14;
-  }, 'O :attribute não é um número de telefone válido');
+}, 'O :attribute não é um número de telefone válido');
