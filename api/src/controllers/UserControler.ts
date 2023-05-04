@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
-import * as Validator from 'validatorjs';
 import * as bcrypt from 'bcrypt';
+import CreateUserValidator from './validators/CreateUserValidator';
 
 const userService = new UserService();
 
@@ -11,33 +11,13 @@ export class UserController implements IUserController {
 
     async save(request: Request, response: Response) {
 
-        Validator.useLang('pt');
-
-        const validation = new Validator(request.body, {
-            name: 'required|min:3|max:150',
-            email: 'required|max:256|email|email_available',
-            password: 'required|min:8|confirmed',
-            phoneNumber: 'required|max:14|phone_number'
-        });
-
-        validation.setAttributeNames({
-            name: 'nome',
-            email: 'e-mail',
-            password: 'senha',
-            phoneNumber: 'telefone'
-        });
-
-        validation.fails(() => {
-            response.json(validation.errors.all());
-        });
-
-        validation.passes(async () => {
+        const passes = () => {
             const { name, email, password, phoneNumber } = request.body;
 
             bcrypt.hash(password, 10, async (err, hash) => {
 
                 if (err) {
-                    response.json({message: 'Erro ao salvar senha do usuário.'})
+                    response.json({ message: 'Erro ao salvar senha do usuário.' })
                 }
 
                 const user = new User(name, email, hash, phoneNumber);
@@ -45,11 +25,17 @@ export class UserController implements IUserController {
                 let savedUser = await userService.save(user);
 
                 delete savedUser['password'];
-    
-                response.json(savedUser);
-            });
 
-        });
+                response.status(200).json(savedUser).send();
+            });
+        }
+
+        const fails = () => {
+            return response.status(400).json(validator.getErrors());
+        }
+
+        let validator = new CreateUserValidator(request, passes, fails);
+
     }
 
     async getAll(request: Request, response: Response) {
@@ -83,16 +69,3 @@ export class UserController implements IUserController {
     }
 }
 
-Validator.registerAsync('email_available', async function (email, attribute, req, passes) {
-
-    if (await userService.getByEmail(email)) {
-        passes(false, 'E-mail já cadastrado.'); // if email is not available
-    } else {
-        passes(); // if email is available
-    }
-
-});
-
-Validator.register('phone_number', function (phone, req, attribute) {
-    return phone.length === 14;
-}, 'O :attribute não é um número de telefone válido');
