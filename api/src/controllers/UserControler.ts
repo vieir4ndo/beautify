@@ -2,40 +2,27 @@ import { Request, Response } from 'express';
 import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
-import * as bcrypt from 'bcrypt';
-import CreateUserValidator from './validators/CreateUserValidator';
+import { validate } from "class-validator"
+const InvalidRequestError = require('../errors')
 
 const userService = new UserService();
 
 export class UserController implements IUserController {
 
     async save(request: Request, response: Response) {
+        const { name, email, password, phoneNumber } = request.body;
 
-        const passes = () => {
-            const { name, email, password, phoneNumber } = request.body;
+        const user = new User(name, email, password, phoneNumber);
+        
+        const errors = await validate(user);
 
-            bcrypt.hash(password, 10, async (err, hash) => {
-
-                if (err) {
-                    response.json({ message: 'Erro ao salvar senha do usuário.' })
-                }
-
-                const user = new User(name, email, hash, phoneNumber);
-
-                let savedUser = await userService.save(user);
-
-                delete savedUser['password'];
-
-                response.status(200).json(savedUser).send();
-            });
+        if (errors.length > 0) {
+            throw new InvalidRequestError(errors.toString())
         }
+        
+        let savedUser = await userService.save(user);
 
-        const fails = () => {
-            return response.status(400).json(validator.getErrors());
-        }
-
-        let validator = new CreateUserValidator(request, passes, fails);
-
+        response.status(200).json(savedUser).send();
     }
 
     async getAll(request: Request, response: Response) {
