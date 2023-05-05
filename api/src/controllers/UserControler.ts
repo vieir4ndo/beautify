@@ -3,7 +3,7 @@ import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
 import { validate } from "class-validator"
-const InvalidRequestError = require('../errors')
+import { InvalidRequestError } from '../errors';
 
 const userService = new UserService();
 

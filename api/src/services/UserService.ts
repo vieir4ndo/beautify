@@ -2,6 +2,7 @@ import { User } from '../entities/User';
 
 import { AppDataSource } from "../data-source";
 import { IUserService } from './abstractions/IUserService';
+import { InvalidRequestError } from '../errors';
 
 const userRepository = AppDataSource.getRepository(User)
 
@@ -17,7 +18,13 @@ export class UserService implements IUserService {
     }
 
     async getById(id: number): Promise<User> {
-        return await userRepository.findOneBy({ id: id });
+        let user = await userRepository.findOneBy({ id: id });
+
+        if (user == null) {
+            throw new InvalidRequestError("User not found");
+        }
+
+        return user;
     }
 
     async getByEmail(email: string): Promise<User> {

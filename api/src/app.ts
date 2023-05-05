@@ -4,10 +4,13 @@ import * as cors from 'cors';
 import * as logger from 'morgan';
 import { AppDataSource } from "./data-source"
 import { routerUser } from './routes/user';
+import { errorHandler, myLogger } from './middlewares/errorHandler';
 
 export const app = express();
 
 AppDataSource.initialize().then(async () => {
+
+    app.use(myLogger)
 
     app.use(cors());
 
