@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request } from 'express';
 import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
@@ -23,34 +23,33 @@ export class UserController implements IUserController {
         return await userService.save(user);
     }
 
-    async getAll(request: Request, response: Response) {
+    async getAll(request: Request) {
 
         let allUsers = await userService.getAll();
 
-        response.json(allUsers);
+        return allUsers;
     }
 
-    async getById(request: Request, response: Response) {
+    async getById(request: Request) {
 
         let user = await userService.getById(parseInt(request.params.id));
 
-        return response.status(200).json(user);
+        return user;
     }
 
-    async deleteById(request: Request, response: Response) {
+    async deleteById(request: Request) {
         await userService.deleteById(parseInt(request.params.id));
-
-        response.send().status(204);
+        return;
     }
 
-    async updateById(request: Request, response: Response) {
+    async updateById(request: Request) {
         const { name, email, password, password2, phoneNumber } = request.body;
 
         const user = new User(name, email, password, phoneNumber);
 
         let userSaved = await userService.updateById(parseInt(request.params.id), user);
 
-        response.json(userSaved);
+        return userSaved;
     }
 }
 
