@@ -2,8 +2,6 @@ import { Request, Response } from 'express';
 import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
-import { validate } from "class-validator"
-import { InvalidRequestError } from '../errors';
 
 const userService = new UserService();
 
@@ -14,11 +12,11 @@ export class UserController implements IUserController {
 
         const user = new User(name, email, password, phoneNumber);
         
-        const errors = await validate(user);
+        //const errors = await validate(user);
 
-        if (errors.length > 0) {
-            throw new InvalidRequestError(errors.toString())
-        }
+        //if (errors.length > 0) {
+            //throw new InvalidRequestError(errors.toString())
+        //}
         
         let savedUser = await userService.save(user);
 
