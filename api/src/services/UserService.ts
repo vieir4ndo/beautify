@@ -2,12 +2,18 @@ import { User } from '../entities/User';
 
 import { AppDataSource } from "../data-source";
 import { IUserService } from './abstractions/IUserService';
-import { InvalidRequestError } from '../errors';
+import { InvalidRequestError, NotFoundError } from '../errors';
 
 const userRepository = AppDataSource.getRepository(User)
 
 export class UserService implements IUserService {
     async save(user: User): Promise<User> {
+        let isEmailAvailable = await this.getByEmail(user.email) == null;
+
+        if (!isEmailAvailable) {
+            throw new InvalidRequestError("E-mail is not available")
+        }
+
         const savedUser = await userRepository.save(user);
 
         return savedUser;
@@ -21,7 +27,7 @@ export class UserService implements IUserService {
         let user = await userRepository.findOneBy({ id: id });
 
         if (user == null) {
-            throw new InvalidRequestError("User not found");
+            throw new NotFoundError();
         }
 
         return user;

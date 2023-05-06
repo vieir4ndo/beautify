@@ -8,19 +8,18 @@ const userService = new UserService();
 export class UserController implements IUserController {
 
     async save(request: Request, response: Response) {
+        
         const { name, email, password, phoneNumber } = request.body;
 
         const user = new User(name, email, password, phoneNumber);
         
-        //const errors = await validate(user);
-
-        //if (errors.length > 0) {
-            //throw new InvalidRequestError(errors.toString())
-        //}
-        
         let savedUser = await userService.save(user);
 
-        response.status(200).json(savedUser).send();
+        return response.status(200).json({
+            success: true,
+            data: savedUser,
+            errors: null,
+        });
     }
 
     async getAll(request: Request, response: Response) {
@@ -34,7 +33,7 @@ export class UserController implements IUserController {
 
         let user = await userService.getById(parseInt(request.params.id));
 
-        response.json(user);
+        return response.status(200).json(user);
     }
 
     async deleteById(request: Request, response: Response) {
