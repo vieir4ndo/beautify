@@ -1,2 +1,9 @@
-export class NotFoundError extends Error { }
-export class InvalidRequestError extends Error { }
+class BaseError {
+    public errors: any;
+
+    constructor(errors: any = null) {
+        this.errors = errors
+    }
+}
+export class NotFoundError extends BaseError{ }
+export class InvalidRequestError extends BaseError{ }

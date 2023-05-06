@@ -33,7 +33,7 @@ export class UserService implements IUserService {
         return user;
     }
 
-    async getByEmail(email: string): Promise<User> {
+    private async getByEmail(email: string): Promise<User> {
         return await userRepository.findOneBy({ email: email });
     }
 

@@ -1,25 +1,26 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
+import { createUserValidator } from './validators/UserValidator';
 
 const userService = new UserService();
 
 export class UserController implements IUserController {
 
-    async save(request: Request, response: Response) {
-        
+    async save(request: Request) {
+         
+        createUserValidator.parse({
+             params: request.params,
+             query: request.query,
+             body: request.body,
+         });
+
         const { name, email, password, phoneNumber } = request.body;
 
         const user = new User(name, email, password, phoneNumber);
         
-        let savedUser = await userService.save(user);
-
-        return response.status(200).json({
-            success: true,
-            data: savedUser,
-            errors: null,
-        });
+        return await userService.save(user);
     }
 
     async getAll(request: Request, response: Response) {

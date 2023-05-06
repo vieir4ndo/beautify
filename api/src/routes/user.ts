@@ -1,17 +1,16 @@
-import { Router, response } from 'express';
-import { validate } from '../middlewares/validate';
+import { Router } from 'express';
+import { errorHandler } from '../middlewares/errorHandler';
 import { UserController } from '../controllers/UserControler';
-import { createUserValidator } from '../controllers/validators/UserValidator';
 const userController = new UserController();
 
 export const routerUser = Router();
 
-routerUser.post('/', validate(createUserValidator), userController.save);
+routerUser.post('/', errorHandler(userController.save));
 
-routerUser.get('/', userController.getAll)
+routerUser.get('/', errorHandler(userController.getAll));
 
-routerUser.get('/:id', userController.getById)
+routerUser.get('/:id', errorHandler(userController.getById))
 
-routerUser.patch('/:id', userController.updateById)
+routerUser.patch('/:id', errorHandler(userController.updateById))
 
-routerUser.delete('/:id', userController.deleteById)
+routerUser.delete('/:id', errorHandler(userController.deleteById))

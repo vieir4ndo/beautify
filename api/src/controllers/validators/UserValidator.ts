@@ -2,14 +2,14 @@ import { object, string, TypeOf, z } from 'zod';
 
 export const createUserValidator = object({
     body: object({
-        name: string({ required_error: 'Name is required', }).max(150, 'Name must be less than 150 characters'),
-        email: string({ required_error: 'Email address is required', }).email('Invalid email address').max(256, 'Email must be less than 256 characters'),
-        password: string({ required_error: 'Password is required' }),
-        phoneNumber: string({ required_error: 'PhoneNumber is required' }).max(14, "PhoneNumber must be less than 14 characters"),
-        passwordConfirm: string({ required_error: 'Please confirm your password' }),
+        name: string().max(150).nonempty(),
+        email: string().email().max(256).nonempty(),
+        password: string().nonempty(),
+        phoneNumber: string().max(14).nonempty(),
+        passwordConfirm: string().nonempty(),
     }).refine((data) => data.password === data.passwordConfirm, {
         path: ['passwordConfirm'],
-        message: 'Passwords do not match',
+        message: 'Password confirmation does not match',
     }),
 });
 
