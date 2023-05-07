@@ -39,11 +39,10 @@ export class UserController implements IUserController {
 
     async deleteById(request: Request) {
         await userService.deleteById(parseInt(request.params.id));
-        return;
     }
 
     async updateById(request: Request) {
-        const { name, email, password, password2, phoneNumber } = request.body;
+        const { name, email, password, phoneNumber } = request.body;
 
         const user = new User(name, email, password, phoneNumber);
 

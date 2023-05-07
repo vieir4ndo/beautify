@@ -4,7 +4,6 @@ import * as cors from 'cors';
 import * as logger from 'morgan';
 import { AppDataSource } from "./data-source"
 import { routerUser } from './routes/user';
-import { errorHandler } from './middlewares/errorHandler';
 
 export const app = express();
 
