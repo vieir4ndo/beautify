@@ -6,6 +6,8 @@ services:
     container_name: db_beautify
     image: postgres:15.0
     restart: always
+    volumes:
+      - ./dbdata:/var/lib/postgresql/data
     ports:
       - '${DB_PORT}:${DB_PORT}'
     healthcheck:

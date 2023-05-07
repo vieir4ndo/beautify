@@ -14,7 +14,6 @@ export const errorHandler =
                     });
                 })
                 .catch((error) => {
-                    console.log(error);
 
                     if (error instanceof InvalidRequestError || error instanceof ZodError) {
                         return res.status(400).json({
@@ -33,6 +32,8 @@ export const errorHandler =
                     }
 
                     if (error instanceof Error) {
+                        console.log(error);
+
                         return res.status(500).json({
                             success: false,
                             data: null,

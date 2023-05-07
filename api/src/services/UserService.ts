@@ -7,6 +7,7 @@ import { InvalidRequestError, NotFoundError } from '../errors';
 const userRepository = AppDataSource.getRepository(User)
 
 export class UserService implements IUserService {
+
     async save(user: User): Promise<User> {
         let isEmailAvailable = await this.getByEmail(user.email) == null;
 
@@ -20,11 +21,18 @@ export class UserService implements IUserService {
     }
 
     async getAll(): Promise<User[]> {
-        return await userRepository.find();
+        return await userRepository
+            .createQueryBuilder("User")
+            .select(['User.id', 'User.name', 'User.email', 'User.active', 'User.phoneNumber'])
+            .getMany();
     }
 
     async getById(id: number): Promise<User> {
-        let user = await userRepository.findOneBy({ id: id });
+        let user = await userRepository
+            .createQueryBuilder("User")
+            .where({ id: id })
+            .select(['User.id', 'User.name', 'User.email', 'User.active', 'User.phoneNumber'])
+            .getOne();
 
         if (user == null) {
             throw new NotFoundError();
@@ -38,13 +46,13 @@ export class UserService implements IUserService {
     }
 
     async deleteById(id: number) {
-        const user = await userRepository.findOneBy({ id: id });
+        const user = await this.getById(id);
 
         await userRepository.delete(user);
     }
 
     async updateById(id: number, user: User): Promise<User> {
-        const userDb = await userRepository.findOneBy({ id: id });
+        const userDb = await this.getById(id);
 
         userDb.name = user.name;
         userDb.email = user.email;
