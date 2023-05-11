@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import PublicRoutes  from './publicRoute';
-import PrivateRoutes from './privateRoute';
+import PublicRoutes  from './routes/publicRoute';
+import PrivateRoutes from './routes/privateRoute';
 import beautifyTheme from './theme';
 
 const theme = createTheme(beautifyTheme)

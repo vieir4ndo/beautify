@@ -8,8 +8,30 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import { userUri } from '../../routes/api';
 
 const SignUp = () => {
+
+  async function onSubmit(form) {
+
+    var body = {
+      name: form.target.name.value,
+      email: form.target.email.value,
+      phoneNumber: form.target.phoneNumber.value,
+      password: form.target.password.value,
+      passwordConfirmation: form.target.passwordConfirmation.value
+    };
+
+    const response = await fetch(userUri, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    })
+
+    await response.json();
+    debugger;
+  }
+
   return (
     <Box
       display="flex"
@@ -24,7 +46,7 @@ const SignUp = () => {
             Cadastre-se
           </Typography>
 
-          <form>
+          <form onSubmit={onSubmit} method='POST'>
             <Grid container spacing={2} sx={{ marginBottom: 4 }}>
               <Grid item xs={12}>
                 <TextField
@@ -52,9 +74,9 @@ const SignUp = () => {
                 <TextField
                   required
                   fullWidth
-                  name="telephone"
+                  name="phoneNumber"
                   variant="outlined"
-                  id="telephone"
+                  id="phoneNumber"
                   label="Telefone"
                 />
               </Grid>
