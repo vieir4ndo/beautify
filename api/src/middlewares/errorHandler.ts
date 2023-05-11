@@ -9,7 +9,7 @@ export const errorHandler =
                 .then((data) => {
                     return res.status(200).json({
                         success: true,
-                        data: data,
+                        data: data ?? null,
                         errors: null,
                     });
                 })
