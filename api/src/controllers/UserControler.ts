@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { User } from "../entities/User";
 import { UserService } from "../services/UserService";
 import { IUserController } from './abstractions/IUserController';
-import { createUserValidator, getUserValidation } from './validators/UserValidator';
+import { createUserValidator, userParamValidation } from './validators/UserValidator';
 
 const userService = new UserService();
 
@@ -11,8 +11,6 @@ export class UserController implements IUserController {
     async save(request: Request) {
 
         createUserValidator.parse({
-             params: request.params,
-             query: request.query,
              body: request.body,
          });
 
@@ -31,7 +29,7 @@ export class UserController implements IUserController {
     }
 
     async getById(request: Request) {
-        getUserValidation.parse({ params: request.params });
+        userParamValidation.parse({ params: request.params });
 
         let user = await userService.getById(parseInt(request.params.id));
 
@@ -39,6 +37,11 @@ export class UserController implements IUserController {
     }
 
     async deleteById(request: Request) {
+
+        userParamValidation.parse({
+            params: request.params,
+        });
+
         await userService.deleteById(parseInt(request.params.id));
     }
 
