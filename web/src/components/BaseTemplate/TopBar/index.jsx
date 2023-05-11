@@ -1,12 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
 
+import UserIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const TopBar = ({ drawerWidth, handleDrawerToggle }) => {
+  let navigate = useNavigate();
+
   return (
     <AppBar
       position="fixed"
@@ -15,7 +20,14 @@ const TopBar = ({ drawerWidth, handleDrawerToggle }) => {
         ml: { sm: `${drawerWidth}px` },
       }}
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          flex: 1, justifyContent: {
+            xs: 'space-between',
+            sm: 'flex-end'
+          }
+        }}
+      >
         <IconButton
           color="inherit"
           aria-label="Abrir menu"
@@ -24,6 +36,11 @@ const TopBar = ({ drawerWidth, handleDrawerToggle }) => {
           sx={{ mr: 2, display: { sm: 'none' } }}
         >
           <MenuIcon />
+        </IconButton>
+        <IconButton href={'/perfil'}>
+          <Avatar sx={{ bgcolor: '#ffffff' }} >
+            <UserIcon sx={{ color: 'primary.main' }} />
+          </Avatar>
         </IconButton>
       </Toolbar>
     </AppBar>
