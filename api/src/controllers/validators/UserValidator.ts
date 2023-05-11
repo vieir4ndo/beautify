@@ -1,4 +1,4 @@
-import { object, string, TypeOf } from 'zod';
+import { z, object, string, TypeOf } from 'zod';
 
 export const createUserValidator = object({
     body: object({
@@ -11,6 +11,25 @@ export const createUserValidator = object({
         path: ['passwordConfirm'],
         message: 'Password confirmation does not match',
     }),
+});
+
+export const getUserValidation = object({
+    params: object({
+        id: string().transform((val, ctx) => {
+            const parsed = parseInt(val);
+
+            if (isNaN(parsed) || parsed <= 0) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.custom,
+                  message: 'ID is not valid',
+                });
+
+                return z.NEVER;
+            }
+
+            return parsed;
+        })
+    })
 });
 
 export type CreateUserInput = Omit<
