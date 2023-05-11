@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,7 +9,6 @@ import UserIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const TopBar = ({ drawerWidth, handleDrawerToggle }) => {
-  let navigate = useNavigate();
 
   return (
     <AppBar
