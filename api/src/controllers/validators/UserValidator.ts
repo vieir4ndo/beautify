@@ -13,20 +13,15 @@ export const createUserValidator = object({
     }),
 });
 
-export type CreateUserInput = Omit<
-    TypeOf<typeof createUserValidator>['body'],
-    'passwordConfirm'
-    >;
-
-export const deleteUserValidator = object ({
+export const userParamValidation = object({
     params: object({
         id: string().transform((val, ctx) => {
             const parsed = parseInt(val);
-           
+
             if (isNaN(parsed) || parsed <= 0) {
                 ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: 'ID is not valid',
+                  code: z.ZodIssueCode.custom,
+                  message: 'ID is not valid',
                 });
 
                 return z.NEVER;
@@ -36,3 +31,8 @@ export const deleteUserValidator = object ({
         })
     })
 });
+
+export type CreateUserInput = Omit<
+    TypeOf<typeof createUserValidator>['body'],
+    'passwordConfirm'
+    >;
