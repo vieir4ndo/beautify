@@ -19,6 +19,8 @@ const SignUp = () => {
             return data.json()
         }).then(data => {
             setUserInfo(data.data)
+        }).catch(err => {
+            console.log(err)
         })
     }
 
