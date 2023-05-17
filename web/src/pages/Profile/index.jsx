@@ -12,7 +12,7 @@ const SignUp = () => {
 
     const getUserInfo = () => {
         let userId = localStorage.getItem('@beautify-user');
-        fetch(`${UserUri}/${userId}`, {
+        fetch(`${userUri}/${userId}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         }).then(data => {
