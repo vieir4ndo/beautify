@@ -11,9 +11,12 @@ import {
 } from '@mui/material';
 import { toast } from 'react-toastify';
 import { userUri } from '../../routes/api';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
+  const [userErrors, setUserErrors] = useState([]);
 
   const handleChange = useCallback(({ target }) => {
     const newValue = { [target.name]: target.value }
@@ -22,12 +25,24 @@ const SignUp = () => {
 
   const successSubmit = () => {
     toast.success('Cadastro efetuado com sucesso!');
-    // redireciona
+
+    return navigate('/')
   }
 
-  const errorSubmit = () => {
-    toast.error('Ocorreu um erro!');
-  }
+  const errorSubmit = useCallback(() => {
+    console.log(userErrors);
+    toast.error(
+      <>
+        <h4>Ocorreu um erro!</h4>
+        {userErrors.map((x) => (
+          <Typography component="p" variant="subtitle2">
+            {x.message}
+          </Typography>
+
+        ))}
+      </>
+    );
+  }, [userErrors])
 
   const onSubmit = useCallback(async (event) => {
     // previne o reload da página
@@ -38,19 +53,25 @@ const SignUp = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userInfo)
     })
-    .then(data => {
-      if (data.ok) return data.json();
+      .then(data => data.json())
+      .then((responseBody) => {
+        console.log(responseBody);
 
-      throw new Error('Erro tal');
-    })
-    .then(successSubmit)
-    .catch((err) => {
-      console.log(err);
-      errorSubmit();
-    });
-  }, [userInfo]);
+        if (!responseBody.success) {
+          setUserErrors(responseBody.errors)
+          throw new Error();
+        }
+
+        return responseBody;
+      })
+      .then(successSubmit)
+      .catch(() => {
+        errorSubmit();
+      });
+  }, [userInfo, setUserErrors]);
 
   return (
+
     <Box
       display="flex"
       justifyContent="center"
@@ -59,6 +80,7 @@ const SignUp = () => {
       style={{ minHeight: '100vh' }}
     >
       <Container maxWidth="sm">
+
         <Paper elevation={3} sx={{ padding: 8 }}>
           <Typography component="h1" variant="h5" sx={{ marginBottom: 4 }}>
             Cadastre-se
@@ -117,10 +139,10 @@ const SignUp = () => {
                 <TextField
                   required
                   fullWidth
-                  name="passwordConfirmation"
+                  name="passwordConfirm"
                   type="password"
                   variant="outlined"
-                  id="passwordConfirmation"
+                  id="passwordConfirm"
                   label="Confirmação de Senha"
                   onChange={handleChange}
                 />
