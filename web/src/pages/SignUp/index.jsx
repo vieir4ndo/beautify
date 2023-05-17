@@ -1,36 +1,54 @@
-import React from 'react';
-
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import React, { useCallback, useState } from 'react';
+import {
+  Container,
+  Box,
+  Grid,
+  Button,
+  TextField,
+  Link,
+  Typography,
+  Paper
+} from '@mui/material';
+import { toast } from 'react-toastify';
 import { userUri } from '../../routes/api';
 
 const SignUp = () => {
+  const [userInfo, setUserInfo] = useState({});
 
-  async function onSubmit(form) {
+  const handleChange = useCallback(({ target }) => {
+    const newValue = { [target.name]: target.value }
+    setUserInfo({ ...userInfo, ...newValue })
+  }, [userInfo, setUserInfo])
 
-    var body = {
-      name: form.target.name.value,
-      email: form.target.email.value,
-      phoneNumber: form.target.phoneNumber.value,
-      password: form.target.password.value,
-      passwordConfirmation: form.target.passwordConfirmation.value
-    };
+  const successSubmit = () => {
+    toast.success('Cadastro efetuado com sucesso!');
+    // redireciona
+  }
 
-    const response = await fetch(userUri, {
+  const errorSubmit = () => {
+    toast.error('Ocorreu um erro!');
+  }
+
+  const onSubmit = useCallback(async (event) => {
+    // previne o reload da página
+    event.preventDefault();
+
+    fetch(userUri, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(userInfo)
     })
+    .then(data => {
+      if (data.ok) return data.json();
 
-    await response.json();
-    debugger;
-  }
+      throw new Error('Erro tal');
+    })
+    .then(successSubmit)
+    .catch((err) => {
+      console.log(err);
+      errorSubmit();
+    });
+  }, [userInfo]);
 
   return (
     <Box
@@ -46,7 +64,7 @@ const SignUp = () => {
             Cadastre-se
           </Typography>
 
-          <form onSubmit={onSubmit} method='POST'>
+          <form onSubmit={onSubmit}>
             <Grid container spacing={2} sx={{ marginBottom: 4 }}>
               <Grid item xs={12}>
                 <TextField
@@ -57,6 +75,7 @@ const SignUp = () => {
                   variant="outlined"
                   id="name"
                   label="Nome completo"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -68,6 +87,7 @@ const SignUp = () => {
                   variant="outlined"
                   id="email"
                   label="E-mail"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -78,6 +98,7 @@ const SignUp = () => {
                   variant="outlined"
                   id="phoneNumber"
                   label="Telefone"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -89,6 +110,7 @@ const SignUp = () => {
                   variant="outlined"
                   id="password"
                   label="Senha"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -100,6 +122,7 @@ const SignUp = () => {
                   variant="outlined"
                   id="passwordConfirmation"
                   label="Confirmação de Senha"
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
