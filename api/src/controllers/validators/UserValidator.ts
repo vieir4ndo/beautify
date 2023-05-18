@@ -13,7 +13,7 @@ export const createUserValidator = object({
     }),
 });
 
-export const getUserValidation = object({
+export const userParamValidation = object({
     params: object({
         id: string().transform((val, ctx) => {
             const parsed = parseInt(val);
