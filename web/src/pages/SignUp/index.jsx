@@ -30,13 +30,12 @@ const SignUp = () => {
   }
 
   const errorSubmit = useCallback(() => {
-    console.log(userErrors);
     toast.error(
       <>
         <h4>Ocorreu um erro!</h4>
-        {userErrors.map((x) => (
-          <Typography component="p" variant="subtitle2">
-            {x.message}
+        {userErrors.map((error, i) => (
+          <Typography key={i} component="p" variant="subtitle2">
+            {error.message}
           </Typography>
 
         ))}
@@ -55,19 +54,16 @@ const SignUp = () => {
     })
       .then(data => data.json())
       .then((responseBody) => {
-        console.log(responseBody);
 
         if (!responseBody.success) {
           setUserErrors(responseBody.errors)
-          throw new Error();
+          throw new Error;
         }
 
         return responseBody;
       })
       .then(successSubmit)
-      .catch(() => {
-        errorSubmit();
-      });
+      .catch(() => errorSubmit());
   }, [userInfo, setUserErrors]);
 
   return (
