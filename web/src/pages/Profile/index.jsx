@@ -1,14 +1,35 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { userUri } from '../../routes/api';
 
 const SignUp = () => {
+
+    const [userInfo, setUserInfo] = useState({});
+
+    const getUserInfo = () => {
+        let userId = localStorage.getItem('@beautify-user');
+        fetch(`${userUri}/${userId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        }).then(data => {
+            return data.json()
+        }).then(data => {
+            setUserInfo(data.data)
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
     return (
-        <Container maxWidth="sm" sx={{marginTop: 4}}>
+        <Container maxWidth="sm" sx={{ marginTop: 4 }}>
             <Typography component="h1" variant="h5" sx={{ marginBottom: 4 }}>
                 Meu Perfil
             </Typography>
@@ -19,11 +40,14 @@ const SignUp = () => {
                         <TextField
                             required
                             fullWidth
-                            autoFocus
                             name="name"
                             variant="outlined"
                             id="name"
                             label="Nome completo"
+                            value={userInfo.name ?? ''}
+                            InputProps={{
+                                disabled: true,
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -35,6 +59,10 @@ const SignUp = () => {
                             variant="outlined"
                             id="email"
                             label="E-mail"
+                            value={userInfo.email ?? ''}
+                            InputProps={{
+                                disabled: true,
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -45,6 +73,10 @@ const SignUp = () => {
                             variant="outlined"
                             id="telephone"
                             label="Telefone"
+                            value={userInfo.phoneNumber ?? ''}
+                            InputProps={{
+                                disabled: true,
+                            }}
                         />
                     </Grid>
                 </Grid>
@@ -53,6 +85,7 @@ const SignUp = () => {
                     fullWidth
                     variant="contained"
                     color="primary"
+                    sx={{ display: 'none' }}
                 >
                     Salvar
                 </Button>
