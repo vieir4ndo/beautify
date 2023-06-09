@@ -29,12 +29,13 @@ const SignUp = () => {
     const successSubmit = () => {
         toast.success('Conta desativada com sucesso!');
 
+        //todo: logoff
+
         return navigate('/')
     }
 
     const errorSubmit = () => {
         toast.error("Ocorreu um erro ao desastivar sua conta, tente novamente!");
-        return navigate('/')
     }
 
     const onSubmit = useCallback(async (event) => {
@@ -42,7 +43,7 @@ const SignUp = () => {
         event.preventDefault();
 
         fetch(userUri + "/" + userInfo.id, {
-            method: 'PUT',
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         })
             .then(data => data.json())
