@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { userUri } from '../../routes/api';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-
+    const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState({});
 
     const getUserInfo = () => {
@@ -23,6 +25,38 @@ const SignUp = () => {
             console.log(err)
         })
     }
+
+    const successSubmit = () => {
+        toast.success('Conta desativada com sucesso!');
+
+        return navigate('/')
+    }
+
+    const errorSubmit = () => {
+        toast.error("Ocorreu um erro ao desastivar sua conta, tente novamente!");
+        return navigate('/')
+    }
+
+    const onSubmit = useCallback(async (event) => {
+        // previne o reload da página
+        event.preventDefault();
+
+        fetch(userUri + "/" + userInfo.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(data => data.json())
+            .then((responseBody) => {
+
+                if (!responseBody.success) {
+                    throw new Error();
+                }
+
+                return responseBody;
+            })
+            .then(successSubmit)
+            .catch(errorSubmit);
+    }, [userInfo]);
 
     useEffect(() => {
         getUserInfo();
@@ -89,6 +123,20 @@ const SignUp = () => {
                 >
                     Salvar
                 </Button>
+            </form>
+            <form onSubmit={onSubmit} >
+                <Grid container spacing={2} sx={{ marginBottom: 4, marginTop: 4 }}>
+                    <Grid item xs={12}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="red"
+                        >
+                            Desativar Conta
+                                </Button>
+                    </Grid>
+                </Grid>
             </form>
         </Container>
     )

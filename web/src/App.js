@@ -12,7 +12,7 @@ const theme = createTheme(beautifyTheme)
 
 function MainComponent() {
   // temos que fazer autenticação
-  var signed = false;
+  var signed = true;
 
   if (!signed) return <PublicRoutes />
 
