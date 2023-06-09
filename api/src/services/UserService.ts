@@ -45,10 +45,12 @@ export class UserService implements IUserService {
         return await userRepository.findOneBy({ email: email });
     }
 
-    async deleteById(id: number) {
-        const user = await this.getById(id);
+    async softDeleteById(id: number) {
+        const userDb = await this.getById(id);
 
-        await userRepository.delete(user);
+        userDb.active = false;
+
+        return await userRepository.save(userDb);
     }
 
     async updateById(id: number, user: User): Promise<User> {
