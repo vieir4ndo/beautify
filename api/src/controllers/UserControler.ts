@@ -42,7 +42,7 @@ export class UserController implements IUserController {
             params: request.params,
         });
 
-        await userService.deleteById(parseInt(request.params.id));
+        await userService.softDeleteById(parseInt(request.params.id));
     }
 
     async updateById(request: Request) {
