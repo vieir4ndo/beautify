@@ -18,7 +18,8 @@
       "reflect-metadata": "^0.1.13",
       "typeorm": "0.3.14",
       "typeorm-encrypted": "^0.8.0",
-      "zod": "^3.21.4"
+      "zod": "^3.21.4",
+      "zod-prisma-types": "^2.7.1"
    },
    "scripts": {
       "dev": "nodemon --exec ts-node src/server.ts",
