@@ -1,16 +1,18 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import PublicRoutes  from './publicRoute';
-import PrivateRoutes from './privateRoute';
+import PublicRoutes  from './routes/publicRoute';
+import PrivateRoutes from './routes/privateRoute';
 import beautifyTheme from './theme';
 
 const theme = createTheme(beautifyTheme)
 
 function MainComponent() {
   // temos que fazer autenticação
-  var signed = true;
+  var signed = false;
 
   if (!signed) return <PublicRoutes />
 
@@ -20,6 +22,7 @@ function MainComponent() {
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <ToastContainer />
       <Router>
         <MainComponent />
       </Router>

@@ -2,11 +2,11 @@ import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 
-import BaseTemplate from './components/BaseTemplate';
-import Profile from './pages/Profile';
+import BaseTemplate from '../components/BaseTemplate';
+import Profile from '../pages/Profile';
 
-const DashboardComponent = lazy(() => import ('./pages/Dashboard') )
-const NotFoundComponent = lazy(() => import ('./pages/NotFound') )
+const DashboardComponent = lazy(() => import ('../pages/Dashboard') )
+const NotFoundComponent = lazy(() => import ('../pages/NotFound') )
 
 function AppRoutes() {
   return (
